@@ -814,11 +814,10 @@ async def get_user_from_token(token: str) -> Optional[dict]:
     return user
 
 async def seed_initial_halls(force: bool = False):
-    count = await db.halls.count_documents({"deleted_at": None})
-    if count == 0 or force:
-        if force:
-            await db.halls.delete_many({})
-            await db.reviews.delete_many({})
+    """Seed sample data only if explicitly forced via admin endpoint; startup remains completely clean."""
+    if force:
+        await db.halls.delete_many({})
+        await db.reviews.delete_many({})
         for hall in SAMPLE_HALLS:
             hall_copy = dict(hall)
             hall_copy["created_at"] = datetime.now(timezone.utc).isoformat()
@@ -833,72 +832,51 @@ async def seed_initial_halls(force: bool = False):
                     review_doc["user_id"] = "user_verified_sample"
                     await db.reviews.insert_one(review_doc)
 
-        # Preseed demo accounts & Pro VIP for arjun.sharma@example.com
-        arjun_user_id = "user_arjun_demo"
-        await db.users.update_one(
-            {"email": "arjun.sharma@example.com"},
-            {"$set": {
-                "user_id": arjun_user_id,
-                "email": "arjun.sharma@example.com",
-                "name": "Arjun Sharma",
-                "password_hash": hash_password("Password@123"),
-                "role": "customer",
-                "auth_provider": "demo",
-                "created_at": datetime.now(timezone.utc).isoformat()
-            }},
-            upsert=True
-        )
+    # Ensure demo accounts exist for testing
+    arjun_user_id = "user_arjun_demo"
+    await db.users.update_one(
+        {"email": "arjun.sharma@example.com"},
+        {"$set": {
+            "user_id": arjun_user_id,
+            "email": "arjun.sharma@example.com",
+            "name": "Arjun Sharma",
+            "password_hash": hash_password("Password@123"),
+            "role": "customer",
+            "auth_provider": "demo",
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }},
+        upsert=True
+    )
 
-        # Grant Arjun Pro VIP
-        await db.memberships.update_one(
-            {"customer_id": arjun_user_id},
-            {"$set": {
-                "customer_id": arjun_user_id,
-                "customer_name": "Arjun Sharma",
-                "customer_email": "arjun.sharma@example.com",
-                "plan": "yearly_500",
-                "plan_name": "Annual Pro (VIP Secret Access)",
-                "amount_paid": 500.0,
-                "order_id": "PRESEED_PRO_ARJUN",
-                "status": "active",
-                "is_pro": True,
-                "activated_at": datetime.now(timezone.utc).isoformat(),
-                "expires_at": (datetime.now(timezone.utc) + timedelta(days=365)).isoformat()
-            }},
-            upsert=True
-        )
+    # Preseed Hall Owner
+    await db.users.update_one(
+        {"email": "owner.srikrishna@example.com"},
+        {"$set": {
+            "user_id": "user_owner_srikrishna",
+            "email": "owner.srikrishna@example.com",
+            "name": "Sri Krishna Venue Management",
+            "password_hash": hash_password("Password@123"),
+            "role": "owner",
+            "auth_provider": "demo",
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }},
+        upsert=True
+    )
 
-        # Preseed Hall Owner
-        await db.users.update_one(
-            {"email": "owner.srikrishna@example.com"},
-            {"$set": {
-                "user_id": "user_owner_srikrishna",
-                "email": "owner.srikrishna@example.com",
-                "name": "Sri Krishna Venue Management",
-                "password_hash": hash_password("Password@123"),
-                "role": "owner",
-                "auth_provider": "demo",
-                "created_at": datetime.now(timezone.utc).isoformat()
-            }},
-            upsert=True
-        )
-
-        # Preseed Admin
-        await db.users.update_one(
-            {"email": "admin@hallfinder.com"},
-            {"$set": {
-                "user_id": "user_admin_super",
-                "email": "admin@hallfinder.com",
-                "name": "HallFinder Admin",
-                "password_hash": hash_password("Password@123"),
-                "role": "admin",
-                "auth_provider": "demo",
-                "created_at": datetime.now(timezone.utc).isoformat()
-            }},
-            upsert=True
-        )
-
-        logging.info("Seeded initial convention halls, reviews, and test accounts.")
+    # Preseed Admin
+    await db.users.update_one(
+        {"email": "admin@hallfinder.com"},
+        {"$set": {
+            "user_id": "user_admin_super",
+            "email": "admin@hallfinder.com",
+            "name": "HallFinder Admin",
+            "password_hash": hash_password("Password@123"),
+            "role": "admin",
+            "auth_provider": "demo",
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }},
+        upsert=True
+    )
 
 # Create FastAPI app
 app = FastAPI(title="HallFinder Pro API", description="Convention Hall Discovery, Booking Marketplace & Pro Subscription API")
@@ -936,6 +914,15 @@ async def trigger_seed(force: bool = Query(default=True)):
     await seed_initial_halls(force=force)
     total = await db.halls.count_documents({"deleted_at": None})
     return {"message": f"Successfully seeded database. Total active halls: {total}"}
+
+@api_router.post("/admin/clear-demo-data")
+async def clear_all_demo_listings():
+    """Clear all sample/dummy convention hall listings, reviews, bookings, and enquiries."""
+    await db.halls.delete_many({})
+    await db.reviews.delete_many({})
+    await db.enquiries.delete_many({})
+    await db.bookings.delete_many({})
+    return {"message": "All demo/sample hall listings, reviews, and bookings cleared successfully."}
 
 @api_router.get("/plans")
 async def get_plans():

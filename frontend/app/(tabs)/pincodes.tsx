@@ -126,8 +126,19 @@ export default function PincodesScreen() {
         }
         ListEmptyComponent={
           !isLoading ? (
-            <View style={styles.emptyView}>
-              <Text style={styles.emptyTitle}>No Pincodes Available</Text>
+            <View style={styles.emptyView} testID="empty-pincodes-view">
+              <Compass size={40} color={colors.brandPrimary} />
+              <Text style={styles.emptyTitle}>No Pincodes Registered Yet</Text>
+              <Text style={styles.emptySubtitle}>
+                Halls listed by owners and BookMyEvents will automatically appear here categorized by city and pincode.
+              </Text>
+              <Pressable
+                testID="pincodes-add-hall-btn"
+                style={styles.emptyActionBtn}
+                onPress={() => router.push("/(tabs)/admin")}
+              >
+                <Text style={styles.emptyActionBtnText}>+ Go to Owner Desk</Text>
+              </Pressable>
             </View>
           ) : (
             <View style={styles.loadingBox}>
@@ -247,12 +258,34 @@ const useStyles = makeStyles((colors) => ({
     marginLeft: "auto",
   },
   emptyView: {
-    padding: 40,
+    padding: 32,
     alignItems: "center",
+    marginTop: 20,
   },
   emptyTitle: {
-    fontSize: 16,
-    color: colors.muted,
+    fontSize: 17,
+    fontWeight: "700",
+    color: colors.brandPrimary,
+    marginTop: 10,
+    marginBottom: 6,
+  },
+  emptySubtitle: {
+    fontSize: 12.5,
+    color: colors.onSurfaceSecondary,
+    textAlign: "center",
+    lineHeight: 18,
+    marginBottom: 16,
+  },
+  emptyActionBtn: {
+    backgroundColor: colors.brandPrimary,
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  emptyActionBtnText: {
+    color: "#FFFFFF",
+    fontSize: 13,
+    fontWeight: "700",
   },
   loadingBox: {
     padding: 40,

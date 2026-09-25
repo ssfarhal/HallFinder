@@ -23,11 +23,13 @@ import {
   Car,
   RotateCcw,
   ArrowLeftRight,
+  PlusCircle,
 } from "lucide-react-native";
 import { Header } from "@/src/components/Header";
 import { HallCard } from "@/src/components/HallCard";
 import { BookingModal } from "@/src/components/BookingModal";
 import { InstantBookingModal } from "@/src/components/InstantBookingModal";
+import { AddHallModal } from "@/src/components/AddHallModal";
 import { fetchHalls } from "@/src/api";
 import { Hall } from "@/src/types";
 import { useTheme, makeStyles } from "@/src/theme";
@@ -61,6 +63,7 @@ export default function HomeScreen() {
 
   const [bookingModalVisible, setBookingModalVisible] = useState(false);
   const [instantBookingModalVisible, setInstantBookingModalVisible] = useState(false);
+  const [addHallModalVisible, setAddHallModalVisible] = useState(false);
   const [selectedHallForBooking, setSelectedHallForBooking] = useState<Hall | null>(null);
 
   React.useEffect(() => {
@@ -393,27 +396,46 @@ export default function HomeScreen() {
               <View style={styles.emptyIconBox}>
                 <Building size={36} color={colors.brandPrimary} />
               </View>
-              <Text style={styles.emptyTitle}>No Convention Halls Found</Text>
-              <Text style={styles.emptySubtitle}>
-                {activePincode
-                  ? `No convention halls found under pincode "${activePincode}". Try searching for popular pincodes like 560001, 560034, 600001, 400001, or 500081.`
-                  : "No convention halls matched your current filters. Try resetting the filters to explore all luxury venues."}
+              <Text style={styles.emptyTitle}>
+                {activePincode || searchQuery || selectedCapacity > 0
+                  ? "No Convention Halls Found"
+                  : "No Convention Halls Listed Yet"}
               </Text>
-              <Pressable
-                testID="explore-all-halls-btn"
-                style={styles.emptyActionBtn}
-                onPress={handleResetAllFilters}
-              >
-                <Text style={styles.emptyActionBtnText}>
-                  Explore All Convention Halls
-                </Text>
-              </Pressable>
+              <Text style={styles.emptySubtitle}>
+                {activePincode || searchQuery || selectedCapacity > 0
+                  ? "No convention halls matched your current filters. Try searching for another pincode or clear filters."
+                  : "Be the first to list your convention hall on Hall Finder! Listings submitted via BookMyEvents or the Owner Desk appear live immediately."}
+              </Text>
+              <View style={styles.emptyActionsRow}>
+                <Pressable
+                  testID="empty-list-hall-btn"
+                  style={styles.emptyActionBtn}
+                  onPress={() => setAddHallModalVisible(true)}
+                >
+                  <PlusCircle size={16} color="#FFFFFF" />
+                  <Text style={styles.emptyActionBtnText}>
+                    + List Your Hall on Hall Finder
+                  </Text>
+                </Pressable>
+
+                {(activePincode || searchQuery || selectedCapacity > 0 || selectedEventType !== "All" || generatorOnly || parkingOnly) && (
+                  <Pressable
+                    testID="explore-all-halls-btn"
+                    style={styles.emptySecondaryBtn}
+                    onPress={handleResetAllFilters}
+                  >
+                    <Text style={styles.emptySecondaryBtnText}>
+                      Clear Search & Filters
+                    </Text>
+                  </Pressable>
+                )}
+              </View>
             </View>
           ) : (
             <View style={styles.loadingContainer}>
               <ActivityIndicator size="large" color={colors.brandPrimary} />
               <Text style={styles.loadingText}>
-                Fetching luxury convention halls...
+                Fetching live convention halls...
               </Text>
             </View>
           )
@@ -432,6 +454,12 @@ export default function HomeScreen() {
         visible={instantBookingModalVisible}
         hall={selectedHallForBooking}
         onClose={() => setInstantBookingModalVisible(false)}
+      />
+
+      {/* Owner Add Hall Modal */}
+      <AddHallModal
+        visible={addHallModalVisible}
+        onClose={() => setAddHallModalVisible(false)}
       />
     </View>
   );
@@ -636,16 +664,40 @@ const useStyles = makeStyles((colors) => ({
     lineHeight: 19,
     marginBottom: 20,
   },
+  emptyActionsRow: {
+    width: "100%",
+    gap: 10,
+    alignItems: "center",
+  },
   emptyActionBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
     backgroundColor: colors.brandPrimary,
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 10,
+    width: "100%",
+    maxWidth: 280,
   },
   emptyActionBtnText: {
-    color: colors.onBrandPrimary,
+    color: "#FFFFFF",
     fontSize: 14,
     fontWeight: "700",
+  },
+  emptySecondaryBtn: {
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+  },
+  emptySecondaryBtnText: {
+    fontSize: 12,
+    color: colors.brandPrimary,
+    fontWeight: "600",
   },
   loadingContainer: {
     padding: 40,

@@ -102,6 +102,44 @@ export default function CompareScreen() {
     );
   });
 
+  if (!isLoading && halls.length < 2) {
+    return (
+      <View style={styles.container}>
+        <View style={[styles.header, { paddingTop: Math.max(insets.top, 14) + 8 }]}>
+          <Pressable
+            testID="compare-back-btn"
+            style={styles.backBtn}
+            onPress={() => (router.canGoBack() ? router.back() : router.replace("/(tabs)"))}
+          >
+            <ArrowLeft size={20} color="#FFFFFF" />
+          </Pressable>
+          <View style={styles.headerTitleGroup}>
+            <Text style={styles.headerTitle}>Venue Comparison</Text>
+            <Text style={styles.headerSubtitle}>Side-by-side analysis</Text>
+          </View>
+          <View style={{ width: 36 }} />
+        </View>
+
+        <View style={styles.emptyCompareBox} testID="compare-empty-state-view">
+          <Building2 size={48} color={colors.brandPrimary} />
+          <Text style={styles.emptyCompareTitle}>At Least 2 Venues Needed</Text>
+          <Text style={styles.emptyCompareSub}>
+            {halls.length === 1
+              ? "You currently have 1 convention hall listed. Add one more venue to compare them side-by-side!"
+              : "No convention halls have been listed yet. Be the first to list a hall or check back once venues are live."}
+          </Text>
+          <Pressable
+            testID="compare-empty-back-btn"
+            style={styles.emptyActionBtn}
+            onPress={() => router.push("/(tabs)")}
+          >
+            <Text style={styles.emptyActionBtnText}>Back to Hall Finder</Text>
+          </Pressable>
+        </View>
+      </View>
+    );
+  }
+
   if (isLoading || !venue1 || !venue2) {
     return (
       <View style={styles.loadingContainer}>
@@ -991,6 +1029,47 @@ const useStyles = makeStyles((colors) => ({
   selectedPillText: {
     color: "#FFFFFF",
     fontSize: 10,
+    fontWeight: "700",
+  },
+  emptyCompareBox: {
+    backgroundColor: colors.surface,
+    margin: 20,
+    marginTop: 40,
+    borderRadius: 16,
+    padding: 28,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: colors.border,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  emptyCompareTitle: {
+    fontSize: 18,
+    fontWeight: "800",
+    color: colors.brandPrimary,
+    marginTop: 14,
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  emptyCompareSub: {
+    fontSize: 13,
+    color: colors.onSurfaceSecondary,
+    textAlign: "center",
+    lineHeight: 19,
+    marginBottom: 20,
+  },
+  emptyActionBtn: {
+    backgroundColor: colors.brandPrimary,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 10,
+  },
+  emptyActionBtnText: {
+    color: "#FFFFFF",
+    fontSize: 14,
     fontWeight: "700",
   },
 }));

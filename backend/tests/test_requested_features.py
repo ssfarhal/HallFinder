@@ -20,7 +20,32 @@ def test_auth_payload_contract_all_flows():
     assert register.json()["token"] == register.json()["session_token"]
 
 
+def get_or_create_test_hall():
+    halls = requests.get(f"{BASE_URL}/api/halls", timeout=20).json()
+    if halls:
+        return halls[0]
+    payload = {
+        "name": "TEST Bengaluru Hall",
+        "tagline": "Grand Heritage Ballroom",
+        "pincode": "560001",
+        "area": "MG Road",
+        "city": "Bangalore",
+        "full_address": "42, MG Road, Bangalore - 560001",
+        "description": "A luxury convention center",
+        "price_per_day": 200000,
+        "seating_capacity": 1000,
+        "food_capacity": 500,
+        "contact_phone": "+91 98450 12345",
+        "contact_email": "owner@example.com",
+        "amenities": ["Central AC", "Valet Parking"],
+        "photos": ["https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1200&q=80"],
+        "event_types": ["Wedding", "Reception"]
+    }
+    created = requests.post(f"{BASE_URL}/api/halls", json=payload, timeout=20).json()
+    return created
+
 def test_pincode_discovery_and_vip_unlock():
+    _ = get_or_create_test_hall()
     halls = requests.get(f"{BASE_URL}/api/halls", params={"pincode": "560001"}, timeout=20)
     assert halls.status_code == 200 and halls.json() and all(h["pincode"].startswith("560001") for h in halls.json())
     customer_id = f"TEST_{uuid.uuid4().hex[:8]}"
@@ -30,7 +55,7 @@ def test_pincode_discovery_and_vip_unlock():
 
 
 def test_reviews_free_read_pro_write_and_owner_reply():
-    hall = requests.get(f"{BASE_URL}/api/halls", params={"pincode": "560001"}, timeout=20).json()[0]
+    hall = get_or_create_test_hall()
     free = requests.post(f"{BASE_URL}/api/auth/demo-login", json={"email": f"free_{uuid.uuid4().hex[:8]}@example.com"}, timeout=20).json()
     denied = requests.post(f"{BASE_URL}/api/halls/{hall['id']}/reviews", headers={"Authorization": f"Bearer {free['token']}"}, json={"rating": 5, "title": "TEST", "comment": "TEST"}, timeout=20)
     assert denied.status_code == 403
