@@ -1558,6 +1558,7 @@ async def register_user(payload: UserRegisterIn):
     await db.users.insert_one(user_doc)
     session_token = await create_user_session(user_id)
     return {
+        "token": session_token,
         "session_token": session_token,
         "user": {
             "user_id": user_id,
@@ -1586,7 +1587,7 @@ async def login_user(payload: UserLoginIn):
         "role": user.get("role", "customer"),
         "auth_provider": user.get("auth_provider", "custom")
     }
-    return {"session_token": session_token, "user": user_data}
+    return {"token": session_token, "session_token": session_token, "user": user_data}
 
 @api_router.post("/auth/demo-login")
 async def demo_login(payload: DemoLoginIn):
@@ -1618,7 +1619,7 @@ async def demo_login(payload: DemoLoginIn):
 
     session_token = await create_user_session(user_id)
     user_doc = await db.users.find_one({"user_id": user_id}, {"_id": 0, "password_hash": 0})
-    return {"session_token": session_token, "user": user_doc}
+    return {"token": session_token, "session_token": session_token, "user": user_doc}
 
 processed_sessions_set = set()
 
