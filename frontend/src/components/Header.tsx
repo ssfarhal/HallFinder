@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { View, Text, Pressable, Modal } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import { Building2, Sparkles, Crown, User, LogOut, X, KeyRound, Shield } from "lucide-react-native";
+import { Image } from "expo-image";
+import { Sparkles, Crown, User, LogOut, X, KeyRound, Shield } from "lucide-react-native";
 import { useTheme, makeStyles } from "../theme";
 import { usePro } from "../context/ProContext";
 import { useAuth } from "../context/AuthContext";
@@ -29,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   const [profileModalVisible, setProfileModalVisible] = useState(false);
 
-  const displayTitle = title ?? (isPro ? "HallFinder Pro" : "HallFinder");
+  const displayTitle = title ?? (isPro ? "Hall Finder Pro" : "Hall Finder");
 
   const handleLogout = async () => {
     setProfileModalVisible(false);
@@ -49,13 +50,15 @@ export const Header: React.FC<HeaderProps> = ({
     >
       <View style={styles.topRow}>
         <View style={styles.brandGroup}>
-          <View style={styles.logoBadge}>
-            <Building2 size={20} color="#FFFFFF" />
-          </View>
+          <Image
+            source={require("@/assets/logo.png")}
+            style={styles.headerLogoImage}
+            contentFit="contain"
+          />
           <View>
             <View style={styles.titleRow}>
               <Text style={styles.title}>{displayTitle}</Text>
-              <Sparkles size={14} color="#F6D365" style={styles.sparkle} />
+              {isPro && <Sparkles size={14} color="#F6D365" style={styles.sparkle} />}
             </View>
             <Text style={styles.subtitle}>{subtitle}</Text>
           </View>
@@ -75,7 +78,7 @@ export const Header: React.FC<HeaderProps> = ({
               <Pressable
                 testID="header-unlock-pro-btn"
                 style={styles.unlockProBtn}
-                onPress={() => openUpgradeModal("HallFinder Pro Membership & Secret Code GT011103")}
+                onPress={() => openUpgradeModal("Hall Finder Pro Membership & Secret Code GT011103")}
               >
                 <Crown size={12} color="#F59E0B" fill="#F59E0B" />
                 <Text style={styles.unlockProText}>Pro</Text>
@@ -118,9 +121,11 @@ export const Header: React.FC<HeaderProps> = ({
         <View style={styles.modalOverlay}>
           <View style={styles.profileCard}>
             <View style={styles.profileCardHeader}>
-              <View style={styles.avatarLarge}>
-                <User size={24} color={colors.onBrandPrimary} />
-              </View>
+              <Image
+                source={require("@/assets/logo.png")}
+                style={styles.avatarLarge}
+                contentFit="contain"
+              />
               <Pressable
                 testID="close-profile-modal-btn"
                 style={styles.closeCardBtn}
@@ -142,7 +147,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <View style={styles.proStatusPill}>
                   <Crown size={14} color="#0C0E12" fill="#0C0E12" />
                   <Text style={styles.proStatusPillText}>
-                    {membership?.plan_name || "HallFinder Pro VIP"}
+                    {membership?.plan_name || "Hall Finder Pro VIP"}
                   </Text>
                 </View>
               ) : (
@@ -221,15 +226,10 @@ const useStyles = makeStyles((colors) => ({
     gap: 10,
     flex: 1,
   },
-  logoBadge: {
+  headerLogoImage: {
     width: 38,
     height: 38,
     borderRadius: 10,
-    backgroundColor: "rgba(255, 255, 255, 0.18)",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.3)",
   },
   titleRow: {
     flexDirection: "row",

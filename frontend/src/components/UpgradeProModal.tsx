@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { Image } from "expo-image";
 import {
   X,
   Crown,
@@ -183,13 +184,15 @@ export const UpgradeProModal: React.FC = () => {
         <View style={styles.sheet}>
           <View style={styles.header}>
             <View style={styles.headerTitleGroup}>
-              <View style={styles.crownCircle}>
-                <Crown size={22} color={colors.onBrandPrimary} fill={colors.onBrandPrimary} />
-              </View>
+              <Image
+                source={require("@/assets/logo.png")}
+                style={styles.proModalLogo}
+                contentFit="contain"
+              />
               <View>
                 <View style={styles.titleRow}>
-                  <Text style={styles.headerTitle}>Unlock HallFinder Pro</Text>
-                  <Sparkles size={16} color={colors.brandPrimary} />
+                  <Text style={styles.headerTitle}>Unlock Hall Finder Pro</Text>
+                  <Sparkles size={16} color="#F6D365" />
                 </View>
                 <Text style={styles.headerSubtitle}>
                   Instant access to live calendars, prices & manager contacts
@@ -542,13 +545,10 @@ const useStyles = makeStyles((colors) => ({
     gap: 12,
     flex: 1,
   },
-  crownCircle: {
+  proModalLogo: {
     width: 42,
     height: 42,
-    borderRadius: 21,
-    backgroundColor: colors.brandPrimary,
-    alignItems: "center",
-    justifyContent: "center",
+    borderRadius: 10,
   },
   titleRow: {
     flexDirection: "row",

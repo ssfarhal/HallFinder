@@ -76,7 +76,7 @@ export default function FavoritesScreen() {
           </View>
           <Text style={styles.proLockTitle}>Shortlist & Compare Venues</Text>
           <Text style={styles.proLockSubtitle}>
-            Saving favourite convention halls is an exclusive feature for HallFinder Pro members. Upgrade today or enter VIP code GT011103 to bookmark and compare live calendars!
+            Saving favourite convention halls is an exclusive feature for Hall Finder Pro members. Upgrade today or enter VIP code GT011103 to bookmark and compare live calendars!
           </Text>
 
           <Pressable
@@ -85,7 +85,7 @@ export default function FavoritesScreen() {
             onPress={() => openUpgradeModal("Shortlisting and Saving Favourite Halls")}
           >
             <Sparkles size={16} color={colors.onBrandPrimary} />
-            <Text style={styles.unlockProActionText}>Unlock HallFinder Pro (From ₹42/mo)</Text>
+            <Text style={styles.unlockProActionText}>Unlock Hall Finder Pro (From ₹42/mo)</Text>
           </Pressable>
         </View>
       ) : (

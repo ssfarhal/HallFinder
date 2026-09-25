@@ -12,12 +12,12 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { Image } from "expo-image";
 import {
   Search,
   X,
   SlidersHorizontal,
   MapPin,
-  Building,
   Zap,
   Users,
   Car,
@@ -337,8 +337,12 @@ export default function HomeScreen() {
   const renderFooter = () => (
     <View style={styles.appFooter} testID="app-footer-section">
       <View style={styles.footerBrandRow}>
-        <Building size={16} color={colors.brandPrimary} />
-        <Text style={styles.footerBrandText}>HallFinder India</Text>
+        <Image
+          source={require("@/assets/logo.png")}
+          style={{ width: 22, height: 22, borderRadius: 5 }}
+          contentFit="contain"
+        />
+        <Text style={styles.footerBrandText}>Hall Finder India</Text>
       </View>
       <Text style={styles.footerTagline}>
         Verified Luxury Convention Halls • Live Calendars
@@ -353,7 +357,7 @@ export default function HomeScreen() {
         </Pressable>
       </View>
       <Text style={styles.footerCopyright}>
-        © 2026 HallFinder. All rights reserved.
+        © 2026 Hall Finder. All rights reserved.
       </Text>
     </View>
   );
@@ -394,7 +398,11 @@ export default function HomeScreen() {
           !isLoading ? (
             <View testID="empty-halls-view" style={styles.emptyView}>
               <View style={styles.emptyIconBox}>
-                <Building size={36} color={colors.brandPrimary} />
+                <Image
+                  source={require("@/assets/logo.png")}
+                  style={{ width: 52, height: 52, borderRadius: 12 }}
+                  contentFit="contain"
+                />
               </View>
               <Text style={styles.emptyTitle}>
                 {activePincode || searchQuery || selectedCapacity > 0

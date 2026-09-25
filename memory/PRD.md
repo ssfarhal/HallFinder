@@ -1,7 +1,7 @@
-# HallFinder Mobile App - Product Requirements Document (PRD)
+# Hall Finder Mobile App - Product Requirements Document (PRD)
 
 ## Problem Statement & Origin
-Built from `https://github.com/ssfarhal/HallFinder.git`, HallFinder is a full-stack convention and wedding hall discovery, reservation marketplace, and venue management mobile app for India with a BookMyEvents Dark Maroon theme (`#6B1C1C`).
+Built from `https://github.com/ssfarhal/HallFinder.git`, Hall Finder is a full-stack convention and wedding hall discovery, reservation marketplace, and venue management mobile app for India with a BookMyEvents Dark Maroon theme (`#6B1C1C`).
 
 ## User Personas
 1. **Free Tier Browsers**: Customers discovering convention halls by pincode (Bangalore, Chennai, Hyderabad, Mumbai, Delhi), viewing photo galleries, exploring seating/dining capacities, checking power generator specs, opening Google Maps navigation, and reading verified customer reviews.
@@ -20,7 +20,7 @@ Built from `https://github.com/ssfarhal/HallFinder.git`, HallFinder is a full-st
 
 ### 2. Two-Tier Access System
 - **Free Tier**: Free browsing, photo galleries, capacity metrics, amenity checklist, Google Maps link, and reading verified reviews.
-- **Pro Tier (HallFinder Pro)**:
+- **Pro Tier (Hall Finder Pro)**:
   - Exact Per-Day Pricing Breakdown (base rent, advance deposit, cleaning & maintenance, 18% GST).
   - Real-time live availability calendar.
   - Direct venue owner & manager phone calling and WhatsApp messaging.
@@ -33,12 +33,12 @@ Built from `https://github.com/ssfarhal/HallFinder.git`, HallFinder is a full-st
   - **Weekly Pro Pass**: 7 Days for ₹100 (Short term)
   - **Quarterly Pro Plan**: 3 Months for ₹300 (₹100/mo)
   - **Annual Pro Plan**: 1 Year for ₹500 (₹42/mo - Save 45%)
-- **VIP Secret Code `GT011103`**: Grants 1-Year Full HallFinder Pro Access for free without payment.
+- **VIP Secret Code `GT011103`**: Grants 1-Year Full Hall Finder Pro Access for free without payment.
 - 1-Tap Sandbox Upgrade for instant developer and reviewer verification.
 
-### 4. Dynamic Pro Branding Rule
-- App name dynamically displays as **"HallFinder"** for all unsubscribed/free users.
-- App name displays as **"HallFinder Pro"** (with glowing gold sparkles & PRO badge) ONLY when the user holds an active Pro subscription.
+### 4. Dynamic Pro Branding Rule & Official App Logo
+- App name formatted as **"Hall Finder"** for all unsubscribed/free users and **"Hall Finder Pro"** for active subscribers.
+- Official convention building logo displayed across the app header, authentication modal, upgrade screen, splash screen, and empty states.
 
 ### 5. Dedicated Public Legal Pages (/terms & /privacy)
 - **Privacy Policy (`/privacy`)**: Covers user account data collection, Google OAuth & Apple Sign In usage, Cashfree payment processing, third-party API/owner venue listing data, customer reviews/ratings storage, and an unequivocal guarantee that user data is never sold to third parties.

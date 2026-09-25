@@ -10,9 +10,9 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { Image } from "expo-image";
 import {
   X,
-  Building2,
   Lock,
   Mail,
   User,
@@ -20,6 +20,7 @@ import {
   ShieldCheck,
   Sparkles,
   KeyRound,
+  Building2,
 } from "lucide-react-native";
 import { useAuth } from "../context/AuthContext";
 import { usePro } from "../context/ProContext";
@@ -42,7 +43,7 @@ export const AuthModal: React.FC = () => {
   const { colors } = useTheme();
   const styles = useStyles();
 
-  const appTitle = isPro ? "HallFinder Pro" : "HallFinder";
+  const appTitle = isPro ? "Hall Finder Pro" : "Hall Finder";
 
   const [authMode, setAuthMode] = useState<"demo" | "password_login" | "register">("demo");
   const [email, setEmail] = useState("arjun.sharma@example.com");
@@ -133,13 +134,15 @@ export const AuthModal: React.FC = () => {
         <View style={styles.sheet}>
           <View style={styles.header}>
             <View style={styles.headerTitleGroup}>
-              <View style={styles.logoBadge}>
-                <Building2 size={20} color={colors.onBrandPrimary} />
-              </View>
+              <Image
+                source={require("@/assets/logo.png")}
+                style={styles.authLogoImage}
+                contentFit="contain"
+              />
               <View>
                 <View style={styles.titleRow}>
                   <Text style={styles.headerTitle}>Sign in to {appTitle}</Text>
-                  {isPro && <Sparkles size={14} color={colors.brandPrimary} />}
+                  {isPro && <Sparkles size={14} color="#F6D365" />}
                 </View>
                 <Text style={styles.headerSubtitle}>
                   Access saved halls, live calendars & booking tools
@@ -426,13 +429,10 @@ const useStyles = makeStyles((colors) => ({
     gap: 10,
     flex: 1,
   },
-  logoBadge: {
-    width: 34,
-    height: 34,
+  authLogoImage: {
+    width: 38,
+    height: 38,
     borderRadius: 8,
-    backgroundColor: colors.brandPrimary,
-    alignItems: "center",
-    justifyContent: "center",
   },
   titleRow: {
     flexDirection: "row",

@@ -13,7 +13,7 @@ export default function PrivacyPolicyScreen() {
   const styles = useStyles();
   const { isPro } = usePro();
 
-  const appTitle = isPro ? "HallFinder Pro" : "HallFinder";
+  const appTitle = isPro ? "Hall Finder Pro" : "Hall Finder";
 
   return (
     <View style={styles.container}>
