@@ -15,6 +15,7 @@ Built from `https://github.com/ssfarhal/HallFinder.git`, HallFinder is a full-st
 - Real-time search across 6-digit Indian pincodes (560001, 560034, 600001, 400001, 110001, 500081).
 - Category filter pills (Wedding, Reception, Engagement, Corporate) and capacity thresholds (500+, 1000+, 1500+, 2000+ seats).
 - Amenity toggles (100% DG Soundproof Power Backup, Valet Parking).
+- Clean search interface with pincode suggestion chips removed from below the search bar for a streamlined layout.
 - Regional City & Pincode Directory tab (`/(tabs)/pincodes`) for one-tap location exploration.
 
 ### 2. Two-Tier Access System

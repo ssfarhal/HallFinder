@@ -25,7 +25,6 @@ import {
   ArrowLeftRight,
 } from "lucide-react-native";
 import { Header } from "@/src/components/Header";
-import { PincodeChipList } from "@/src/components/PincodeChipList";
 import { HallCard } from "@/src/components/HallCard";
 import { BookingModal } from "@/src/components/BookingModal";
 import { InstantBookingModal } from "@/src/components/InstantBookingModal";
@@ -101,11 +100,6 @@ export default function HomeScreen() {
     setActivePincode(pincodeInput.trim());
   };
 
-  const handlePincodeSelect = (pin: string) => {
-    setPincodeInput(pin);
-    setActivePincode(pin);
-  };
-
   const handleClearPincode = () => {
     setPincodeInput("");
     setActivePincode("");
@@ -169,13 +163,6 @@ export default function HomeScreen() {
           <Search size={18} color={colors.onBrandPrimary} />
         </Pressable>
       </View>
-
-      {/* Popular Pincode Chips Row */}
-      <PincodeChipList
-        selectedPincode={activePincode}
-        onSelectPincode={handlePincodeSelect}
-        onClear={handleClearPincode}
-      />
 
       {/* Filter Chips Bar */}
       <View style={styles.filterBar}>
