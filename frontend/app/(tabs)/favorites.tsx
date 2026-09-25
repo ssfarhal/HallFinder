@@ -105,7 +105,7 @@ export default function FavoritesScreen() {
 const useStyles = makeStyles((colors) => ({
   container: {
     flex: 1,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.surfaceSecondary,
   },
   listContainer: {
     paddingTop: 16,
@@ -115,7 +115,7 @@ const useStyles = makeStyles((colors) => ({
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
-    backgroundColor: colors.surfaceSecondary,
+    backgroundColor: colors.surface,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 8,
@@ -130,12 +130,17 @@ const useStyles = makeStyles((colors) => ({
   proLockedContainer: {
     margin: 20,
     marginTop: 40,
-    backgroundColor: colors.surfaceSecondary,
+    backgroundColor: colors.surface,
     borderRadius: 16,
     padding: 24,
     alignItems: "center",
     borderWidth: 1,
     borderColor: colors.borderStrong,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   proLockCrown: {
     width: 72,
@@ -169,7 +174,7 @@ const useStyles = makeStyles((colors) => ({
     borderRadius: 12,
   },
   unlockProActionText: {
-    color: colors.onBrandPrimary,
+    color: "#FFFFFF",
     fontSize: 14,
     fontWeight: "800",
   },

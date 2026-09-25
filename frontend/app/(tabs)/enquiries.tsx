@@ -443,7 +443,7 @@ export default function EnquiriesScreen() {
 const useStyles = makeStyles((colors) => ({
   container: {
     flex: 1,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.surfaceSecondary,
   },
   listContainer: {
     padding: 16,
@@ -474,7 +474,7 @@ const useStyles = makeStyles((colors) => ({
   },
   tabToggleRow: {
     flexDirection: "row",
-    backgroundColor: colors.surfaceSecondary,
+    backgroundColor: colors.surface,
     marginHorizontal: 16,
     marginTop: 10,
     borderRadius: 10,
@@ -497,7 +497,7 @@ const useStyles = makeStyles((colors) => ({
     color: colors.onSurfaceSecondary,
   },
   tabToggleTextActive: {
-    color: colors.onBrandPrimary,
+    color: "#FFFFFF",
     fontWeight: "700",
   },
   filterTabsRow: {
@@ -510,7 +510,7 @@ const useStyles = makeStyles((colors) => ({
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 8,
-    backgroundColor: colors.surfaceSecondary,
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.border,
   },
@@ -524,10 +524,10 @@ const useStyles = makeStyles((colors) => ({
     color: colors.onSurfaceSecondary,
   },
   filterTabTextActive: {
-    color: colors.onBrandPrimary,
+    color: "#FFFFFF",
   },
   enquiryCard: {
-    backgroundColor: colors.surfaceSecondary,
+    backgroundColor: colors.surface,
     borderRadius: 14,
     padding: 14,
     marginBottom: 14,
@@ -535,7 +535,7 @@ const useStyles = makeStyles((colors) => ({
     borderColor: colors.border,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
   },

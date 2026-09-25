@@ -1,7 +1,7 @@
 # HallFinder Mobile App - Product Requirements Document (PRD)
 
 ## Problem Statement & Origin
-Built from `https://github.com/ssfarhal/HallFinder.git`, HallFinder is a full-stack convention and wedding hall discovery, reservation marketplace, and venue management mobile app for India with a cinematic Glass / Luxe DARK personality.
+Built from `https://github.com/ssfarhal/HallFinder.git`, HallFinder is a full-stack convention and wedding hall discovery, reservation marketplace, and venue management mobile app for India with a BookMyEvents Dark Maroon theme (`#6B1C1C`).
 
 ## User Personas
 1. **Free Tier Browsers**: Customers discovering convention halls by pincode (Bangalore, Chennai, Hyderabad, Mumbai, Delhi), viewing photo galleries, exploring seating/dining capacities, checking power generator specs, opening Google Maps navigation, and reading verified customer reviews.

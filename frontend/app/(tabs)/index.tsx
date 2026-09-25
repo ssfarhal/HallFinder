@@ -442,7 +442,7 @@ export default function HomeScreen() {
 const useStyles = makeStyles((colors) => ({
   container: {
     flex: 1,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.surfaceSecondary,
   },
   listContainer: {
     flexGrow: 1,
@@ -464,9 +464,9 @@ const useStyles = makeStyles((colors) => ({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: colors.surfaceSecondary,
-    borderWidth: 1,
-    borderColor: colors.borderStrong,
+    backgroundColor: colors.surface,
+    borderWidth: 1.5,
+    borderColor: colors.border,
     borderRadius: 12,
     paddingHorizontal: 12,
     height: 48,
@@ -502,7 +502,7 @@ const useStyles = makeStyles((colors) => ({
     height: 32,
     paddingHorizontal: 12,
     borderRadius: 8,
-    backgroundColor: colors.surfaceSecondary,
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.border,
     flexDirection: "row",
@@ -521,7 +521,7 @@ const useStyles = makeStyles((colors) => ({
     color: colors.onSurfaceSecondary,
   },
   filterPillTextActive: {
-    color: colors.onBrandPrimary,
+    color: "#FFFFFF",
     fontWeight: "700",
   },
   expandedFiltersBox: {

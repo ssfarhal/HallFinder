@@ -144,13 +144,13 @@ export default function PincodesScreen() {
 const useStyles = makeStyles((colors) => ({
   container: {
     flex: 1,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.surfaceSecondary,
   },
   introBanner: {
     flexDirection: "row",
     alignItems: "flex-start",
     gap: 12,
-    backgroundColor: colors.surfaceSecondary,
+    backgroundColor: colors.surface,
     marginHorizontal: 16,
     marginTop: 12,
     marginBottom: 8,
@@ -176,7 +176,7 @@ const useStyles = makeStyles((colors) => ({
     flexGrow: 1,
   },
   card: {
-    backgroundColor: colors.surfaceSecondary,
+    backgroundColor: colors.surface,
     borderRadius: 12,
     padding: 14,
     marginBottom: 10,
@@ -184,7 +184,7 @@ const useStyles = makeStyles((colors) => ({
     borderColor: colors.border,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.05,
     shadowRadius: 3,
     elevation: 1,
   },

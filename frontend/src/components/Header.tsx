@@ -43,19 +43,19 @@ export const Header: React.FC<HeaderProps> = ({
         styles.container,
         {
           paddingTop: Math.max(insets.top, 12) + 8,
-          backgroundColor: colors.surface,
+          backgroundColor: colors.brandPrimary,
         },
       ]}
     >
       <View style={styles.topRow}>
         <View style={styles.brandGroup}>
           <View style={styles.logoBadge}>
-            <Building2 size={20} color={colors.brandPrimary} />
+            <Building2 size={20} color="#FFFFFF" />
           </View>
           <View>
             <View style={styles.titleRow}>
               <Text style={styles.title}>{displayTitle}</Text>
-              {isPro && <Sparkles size={14} color={colors.brandPrimary} style={styles.sparkle} />}
+              <Sparkles size={14} color="#F6D365" style={styles.sparkle} />
             </View>
             <Text style={styles.subtitle}>{subtitle}</Text>
           </View>
@@ -68,8 +68,8 @@ export const Header: React.FC<HeaderProps> = ({
             {/* VIP Secret Code / Pro Button */}
             {isPro ? (
               <View testID="header-pro-member-badge" style={styles.proActiveBadge}>
-                <Crown size={12} color="#0C0E12" fill="#0C0E12" />
-                <Text style={styles.proActiveText}>PRO VIP</Text>
+                <Crown size={12} color="#B45309" fill="#B45309" />
+                <Text style={styles.proActiveText}>PRO</Text>
               </View>
             ) : (
               <Pressable
@@ -77,8 +77,8 @@ export const Header: React.FC<HeaderProps> = ({
                 style={styles.unlockProBtn}
                 onPress={() => openUpgradeModal("HallFinder Pro Membership & Secret Code GT011103")}
               >
-                <Crown size={12} color={colors.brandPrimary} />
-                <Text style={styles.unlockProText}>Unlock Pro</Text>
+                <Crown size={12} color="#F59E0B" fill="#F59E0B" />
+                <Text style={styles.unlockProText}>Pro</Text>
               </Pressable>
             )}
 
@@ -89,7 +89,7 @@ export const Header: React.FC<HeaderProps> = ({
                 style={styles.userAvatarBtn}
                 onPress={() => setProfileModalVisible(true)}
               >
-                <User size={14} color={colors.onSurface} />
+                <User size={14} color="#FFFFFF" />
                 <Text style={styles.userAvatarText} numberOfLines={1}>
                   {user.name.split(" ")[0]}
                 </Text>
@@ -100,7 +100,7 @@ export const Header: React.FC<HeaderProps> = ({
                 style={styles.signInBtn}
                 onPress={() => openAuthModal()}
               >
-                <User size={12} color={colors.onSurface} />
+                <User size={12} color="#FFFFFF" />
                 <Text style={styles.signInText}>Sign In</Text>
               </Pressable>
             )}
@@ -202,11 +202,11 @@ const useStyles = makeStyles((colors) => ({
   container: {
     paddingHorizontal: 16,
     paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.15,
     shadowRadius: 8,
     elevation: 4,
   },
@@ -225,11 +225,11 @@ const useStyles = makeStyles((colors) => ({
     width: 38,
     height: 38,
     borderRadius: 10,
-    backgroundColor: colors.surfaceSecondary,
+    backgroundColor: "rgba(255, 255, 255, 0.18)",
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
-    borderColor: colors.borderStrong,
+    borderColor: "rgba(255, 255, 255, 0.3)",
   },
   titleRow: {
     flexDirection: "row",
@@ -237,17 +237,17 @@ const useStyles = makeStyles((colors) => ({
     gap: 4,
   },
   title: {
-    fontSize: 18,
-    fontWeight: "800",
-    color: colors.onSurface,
+    fontSize: 19,
+    fontWeight: "700",
+    color: "#FFFFFF",
     letterSpacing: -0.3,
   },
   sparkle: {
     marginLeft: 2,
   },
   subtitle: {
-    fontSize: 11,
-    color: colors.onSurfaceSecondary,
+    fontSize: 11.5,
+    color: "rgba(255, 255, 255, 0.85)",
     fontWeight: "500",
     marginTop: 1,
   },
@@ -260,13 +260,13 @@ const useStyles = makeStyles((colors) => ({
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
-    backgroundColor: colors.brandPrimary,
+    backgroundColor: "#FEF3C7",
     paddingHorizontal: 9,
     paddingVertical: 5,
     borderRadius: 999,
   },
   proActiveText: {
-    color: colors.onBrandPrimary,
+    color: "#B45309",
     fontSize: 10,
     fontWeight: "800",
     letterSpacing: 0.5,
@@ -275,15 +275,15 @@ const useStyles = makeStyles((colors) => ({
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
-    backgroundColor: colors.brandTertiary,
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     paddingHorizontal: 9,
     paddingVertical: 5,
     borderRadius: 999,
     borderWidth: 1,
-    borderColor: colors.borderStrong,
+    borderColor: "rgba(255, 255, 255, 0.35)",
   },
   unlockProText: {
-    color: colors.brandPrimary,
+    color: "#FFFFFF",
     fontSize: 11,
     fontWeight: "700",
   },
@@ -291,16 +291,16 @@ const useStyles = makeStyles((colors) => ({
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
-    backgroundColor: colors.surfaceSecondary,
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     paddingHorizontal: 8,
     paddingVertical: 5,
     borderRadius: 999,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: "rgba(255, 255, 255, 0.35)",
     maxWidth: 90,
   },
   userAvatarText: {
-    color: colors.onSurface,
+    color: "#FFFFFF",
     fontSize: 11,
     fontWeight: "600",
   },
@@ -308,15 +308,15 @@ const useStyles = makeStyles((colors) => ({
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
-    backgroundColor: colors.surfaceSecondary,
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     paddingHorizontal: 8,
     paddingVertical: 5,
     borderRadius: 999,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: "rgba(255, 255, 255, 0.35)",
   },
   signInText: {
-    color: colors.onSurface,
+    color: "#FFFFFF",
     fontSize: 11,
     fontWeight: "700",
   },

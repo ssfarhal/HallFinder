@@ -912,7 +912,7 @@ const useStyles = makeStyles((colors) => ({
   hallName: {
     fontSize: 22,
     fontWeight: "800",
-    color: colors.onSurface,
+    color: colors.brandPrimary,
     letterSpacing: -0.3,
     marginBottom: 4,
   },

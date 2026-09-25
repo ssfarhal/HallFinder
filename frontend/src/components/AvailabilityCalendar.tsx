@@ -216,14 +216,14 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
 
 const useStyles = makeStyles((colors) => ({
   container: {
-    backgroundColor: colors.surfaceSecondary,
+    backgroundColor: colors.surface,
     borderRadius: 16,
     padding: 16,
     borderWidth: 1,
     borderColor: colors.border,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
   },
@@ -241,7 +241,7 @@ const useStyles = makeStyles((colors) => ({
   headerTitle: {
     fontSize: 16,
     fontWeight: "700",
-    color: colors.onSurface,
+    color: colors.brandPrimary,
   },
   navControls: {
     flexDirection: "row",
@@ -251,7 +251,7 @@ const useStyles = makeStyles((colors) => ({
     width: 32,
     height: 32,
     borderRadius: 8,
-    backgroundColor: colors.surfaceTertiary,
+    backgroundColor: colors.surfaceSecondary,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
@@ -267,12 +267,12 @@ const useStyles = makeStyles((colors) => ({
     flexDirection: "row",
     alignItems: "center",
     gap: 5,
-    backgroundColor: "rgba(46, 125, 50, 0.15)",
+    backgroundColor: "#E8F5E9",
     paddingHorizontal: 8,
     paddingVertical: 5,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: "rgba(46, 125, 50, 0.3)",
+    borderColor: "#C8E6C9",
   },
   statTextAvailable: {
     fontSize: 11,
@@ -284,12 +284,12 @@ const useStyles = makeStyles((colors) => ({
     flexDirection: "row",
     alignItems: "center",
     gap: 5,
-    backgroundColor: "rgba(211, 47, 47, 0.15)",
+    backgroundColor: "#FFEBEE",
     paddingHorizontal: 8,
     paddingVertical: 5,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: "rgba(211, 47, 47, 0.3)",
+    borderColor: "#FFCDD2",
   },
   statTextBooked: {
     fontSize: 11,
@@ -330,12 +330,12 @@ const useStyles = makeStyles((colors) => ({
     borderWidth: 1,
   },
   dayCellAvailable: {
-    backgroundColor: "rgba(46, 125, 50, 0.1)",
-    borderColor: "rgba(46, 125, 50, 0.35)",
+    backgroundColor: "#F0FDF4",
+    borderColor: "#86EFAC",
   },
   dayCellBooked: {
-    backgroundColor: "rgba(211, 47, 47, 0.1)",
-    borderColor: "rgba(211, 47, 47, 0.35)",
+    backgroundColor: "#FEF2F2",
+    borderColor: "#FECACA",
   },
   dayCellSelected: {
     borderColor: colors.brandPrimary,
@@ -347,7 +347,7 @@ const useStyles = makeStyles((colors) => ({
     fontWeight: "700",
   },
   dayNumberAvailable: {
-    color: colors.onSurface,
+    color: colors.success,
   },
   dayNumberBooked: {
     color: colors.error,

@@ -54,7 +54,7 @@ export const PincodeChipList: React.FC<PincodeChipListProps> = ({
               !selectedPincode && styles.chipTextSelected,
             ]}
           >
-            All Cities
+            All Pincodes
           </Text>
         </Pressable>
 
