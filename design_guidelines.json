@@ -1,0 +1,186 @@
+{
+  "app_name": "HallFinder",
+  "personality": "6 Glass / Luxe DARK",
+  "personality_one_liner": "A cinematic, high-end convention hall discovery and booking marketplace with glassmorphism, VIP membership tiers, and instant reservation workflows.",
+  "color": {
+    "surface": "#0C0E12",
+    "onSurface": "#F2F4F7",
+    "surfaceSecondary": "#15181F",
+    "onSurfaceSecondary": "#D0D5DD",
+    "surfaceTertiary": "#1E232D",
+    "onSurfaceTertiary": "#98A2B3",
+    "surfaceInverse": "#FFFFFF",
+    "onSurfaceInverse": "#0C0E12",
+    "brand": "#C5A880",
+    "brandPrimary": "#D4AF37",
+    "onBrandPrimary": "#0C0E12",
+    "brandSecondary": "#B8860B",
+    "onBrandSecondary": "#FFFFFF",
+    "brandTertiary": "rgba(212, 175, 55, 0.15)",
+    "success": "#2E7D32",
+    "onSuccess": "#E8F5E9",
+    "warning": "#ED6C02",
+    "onWarning": "#FFF3E0",
+    "error": "#D32F2F",
+    "onError": "#FFEBEE",
+    "info": "#0288D1",
+    "onInfo": "#E1F5FE",
+    "border": "rgba(255, 255, 255, 0.08)",
+    "borderStrong": "rgba(212, 175, 55, 0.4)",
+    "divider": "rgba(255, 255, 255, 0.05)",
+    "muted": "#98A2B3",
+    "onBrand": "#0C0E12"
+  },
+  "typography": {
+    "displayFontFamily": "Fraunces",
+    "textFontFamily": "Switzer",
+    "scale": {
+      "sm": 12,
+      "base": 14,
+      "lg": 16,
+      "xl": 20,
+      "2xl": 24
+    }
+  },
+  "spacing": {
+    "rule": "Generous vertical breathing room with cinematic padding, compact list gaps, and sticky bottom CTAs with safe area clearance.",
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24,
+    "2xl": 32,
+    "3xl": 48
+  },
+  "radius_tokens": {
+    "sm": 6,
+    "md": 12,
+    "lg": 20,
+    "pill": 999
+  },
+  "shadow_tier": "0",
+  "navigation": "bottom_tabs",
+  "icon_set": "Phosphor",
+  "glassmorphism": {
+    "enabled": true,
+    "dos": [
+      "Use frosted glass over cinematic backdrop photos",
+      "Glass sticky headers over scrolling content",
+      "Glass bottom tab bar and modal sheets"
+    ],
+    "donts": [
+      "Never blur body text or form inputs",
+      "Never use low-opacity glass without a dark translucent base tint"
+    ]
+  },
+  "platform_libraries": {
+    "glass": {
+      "ios": "expo-glass-effect",
+      "android": "expo-blur",
+      "low_end_android_fallback": "solid surfaceSecondary"
+    },
+    "image": "expo-image",
+    "blur": "expo-blur",
+    "bottom_sheet": "@gorhom/bottom-sheet",
+    "animation": "react-native-reanimated",
+    "gesture": "react-native-gesture-handler"
+  },
+  "screens": [
+    {
+      "name": "Auth",
+      "purpose": "1-Tap Demo Login, Social Login, Email/Password JWT auth, and Open Guest Mode",
+      "states": {
+        "loading": "Centered gold pulsing spark loader",
+        "empty": "N/A",
+        "error": "Banner alert with retry action"
+      },
+      "layout": "Cinematic dark hero background with gradient scrim, brand wordmark, quick 1-tap role selector, and clean authentication tabs."
+    },
+    {
+      "name": "Home",
+      "purpose": "Hall Discovery with Pincode Search, category tabs, featured luxury venues, and VIP upgrade banner.",
+      "states": {
+        "loading": "Skeleton card placeholders with shimmer",
+        "empty": "Empty state illustration + 'No convention halls found in this pincode' + Reset Filter button",
+        "error": "Error card with reload button"
+      },
+      "layout": "Sticky header with pincode search & profile icon, horizontal category pills, featured hero carousel with glass badges, and vertical venue cards list."
+    },
+    {
+      "name": "HallDetail",
+      "purpose": "Showcase hall photo gallery, pricing, capacity, star ratings, real-time availability calendar, and direct actions (Call, WhatsApp, Enquiry).",
+      "states": {
+        "loading": "Image skeleton loader and detail placeholders",
+        "empty": "No details available",
+        "error": "Failed to load hall data + retry button"
+      },
+      "layout": "Full-bleed cover photo with back button and favorite icon, scrollable details sheet with glassmorphic stats, date slot picker, reviews section, and sticky bottom booking bar."
+    },
+    {
+      "name": "BookingFlow",
+      "purpose": "Select dates, guest count, add-ons, apply VIP unlock code (GT011103) or Cashfree Pro membership, and confirm reservation.",
+      "states": {
+        "loading": "Processing payment / availability spinner",
+        "empty": "No slot selected",
+        "error": "Booking conflict or payment validation error message"
+      },
+      "layout": "Step-by-step summary card, VIP code input drawer with instant validation, Cashfree gateway simulation, and success confirmation modal."
+    },
+    {
+      "name": "OwnerDesk",
+      "purpose": "Owner listing management, incoming enquiries, real-time availability calendar toggle, and booking request approvals.",
+      "states": {
+        "loading": "Metrics skeleton and booking list loader",
+        "empty": "Illustration + 'No convention halls or enquiries yet' + Create Listing button",
+        "error": "Failed to sync owner data + retry"
+      },
+      "layout": "Dashboard metrics top bar, active listings horizontal reel, incoming enquiries list with status badges, and quick action FAB for adding new hall."
+    },
+    {
+      "name": "AdminDesk",
+      "purpose": "Platform admin control panel for venue approvals, VIP usage tracking, user management, and platform analytics.",
+      "states": {
+        "loading": "Analytics table skeleton loader",
+        "empty": "No pending moderation items",
+        "error": "Admin connection error banner"
+      },
+      "layout": "Tabular control center with stat summary cards, moderation queue with approve/reject actions, and system logs."
+    },
+    {
+      "name": "Profile",
+      "purpose": "User profile, saved favorites, booking history, Pro membership status, and VIP unlock management.",
+      "states": {
+        "loading": "Profile skeleton",
+        "empty": "No bookings or saved halls found",
+        "error": "Failed to load profile details"
+      },
+      "layout": "Header banner with user avatar and VIP badge status, booked events history list, settings rows with glass tinted icons, and logout button."
+    }
+  ],
+  "images": {
+    "hero_ballroom": {
+      "url": "https://images.unsplash.com/photo-1759519238029-689e99c6d19e?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "dark": "https://images.unsplash.com/photo-1759519238029-689e99c6d19e?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "alt": "Grand ballroom with chandeliers"
+    },
+    "banquet_hall_2": {
+      "url": "https://images.unsplash.com/photo-1763231575952-98244918f99b?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "dark": "https://images.unsplash.com/photo-1763231575952-98244918f99b?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "alt": "Elegant banquet hall interior"
+    },
+    "luxe_interior": {
+      "url": "https://images.pexels.com/photos/30311728/pexels-photo-30311728.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "dark": "https://images.pexels.com/photos/30311728/pexels-photo-30311728.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "alt": "Luxurious ballroom arranged for grand event"
+    }
+  },
+  "instructions_to_main_agent": [
+    "Build the HallFinder mobile app using Glass / Luxe DARK personality with deep obsidian and gold accent tokens.",
+    "Implement Hall Discovery & Pincode Filter with real-time matching and category pills.",
+    "Support Demo 1-Tap Login, Social Login, Email/Password JWT auth, and Open Guest Mode.",
+    "Implement VIP code GT011103 unlock flow and Cashfree Pro membership simulation.",
+    "Provide Hall Details, photo gallery, real-time availability calendar, and reviews (Pro write, Free read).",
+    "Build Owner Desk and Admin Desk for venue management, enquiry handling, and approvals.",
+    "Ensure all touch targets are >= 44x44pt, safe areas are respected, and glass blur surfaces use dark translucent backing tints for absolute contrast."
+  ]
+}
