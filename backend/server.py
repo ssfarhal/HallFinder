@@ -624,7 +624,10 @@ def serialize_doc(doc: dict) -> dict:
     if "_id" in doc_copy:
         doc_copy["id"] = str(doc_copy.pop("_id"))
     if "price_per_day" in doc_copy and ("pricing_breakdown" not in doc_copy or not doc_copy.get("pricing_breakdown")):
-        price = doc_copy.get("price_per_day", 200000)
+        try:
+            price = int(doc_copy.get("price_per_day", 200000))
+        except Exception:
+            price = 200000
         deposit = int(price * 0.2)
         cleaning = int(price * 0.05)
         tax = int((price + cleaning) * 0.18)
@@ -636,6 +639,135 @@ def serialize_doc(doc: dict) -> dict:
             "approx_total_per_day": price + cleaning + tax
         }
     return doc_copy
+
+def normalize_hall_doc(doc: dict) -> dict:
+    """Normalize and map hall listings from BookMyEvents and owner self-listings so they display live immediately."""
+    if not doc:
+        return {}
+    d = dict(doc)
+    if "_id" in d:
+        d["id"] = str(d.pop("_id"))
+
+    # Map name / title
+    if not d.get("name"):
+        d["name"] = d.get("hall_name") or d.get("venue_name") or d.get("title") or "Convention Hall"
+
+    # Map pincode
+    raw_pin = d.get("pincode") or d.get("postal_code") or d.get("zip") or "560001"
+    d["pincode"] = str(raw_pin).strip()
+
+    # Map area / locality / city / state
+    if not d.get("area"):
+        d["area"] = d.get("locality") or d.get("location") or d.get("area_name") or "Central"
+    if not d.get("city"):
+        d["city"] = d.get("town") or "Bangalore"
+    if not d.get("state"):
+        d["state"] = "Karnataka"
+    if not d.get("full_address"):
+        d["full_address"] = d.get("address") or f"{d.get('area')}, {d.get('city')}, {d.get('state')} - {d.get('pincode')}"
+
+    # Map pricing / tariffs
+    raw_price = d.get("price_per_day") or d.get("tariff") or d.get("price") or d.get("rent_per_day") or d.get("base_price") or 200000
+    try:
+        d["price_per_day"] = int(raw_price)
+    except Exception:
+        d["price_per_day"] = 200000
+
+    # Map seating & food capacity
+    raw_seating = d.get("seating_capacity") or d.get("seating") or d.get("capacity") or 1000
+    try:
+        d["seating_capacity"] = int(raw_seating)
+    except Exception:
+        d["seating_capacity"] = 1000
+
+    raw_food = d.get("food_capacity") or d.get("dining_capacity") or d.get("dining") or int(d["seating_capacity"] * 0.5)
+    try:
+        d["food_capacity"] = int(raw_food)
+    except Exception:
+        d["food_capacity"] = int(d["seating_capacity"] * 0.5)
+
+    # Photos
+    raw_photos = d.get("photos") or d.get("images") or d.get("photo_urls") or d.get("gallery") or []
+    if isinstance(raw_photos, str):
+        d["photos"] = [raw_photos]
+    elif isinstance(raw_photos, list) and len(raw_photos) > 0:
+        d["photos"] = [str(p) for p in raw_photos]
+    else:
+        d["photos"] = [
+            "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80"
+        ]
+
+    # Tagline & Description
+    if not d.get("tagline"):
+        d["tagline"] = d.get("subtitle") or "Grand Convention & Wedding Destination"
+    if not d.get("description"):
+        d["description"] = d.get("about") or f"{d.get('name')} offers luxury convention and banquet facilities with acoustic climate control, dedicated parking, and 100% DG power generator backup."
+
+    # Parking & Generator specs
+    if not d.get("parking_capacity"):
+        d["parking_capacity"] = d.get("parking") or "200+ Cars with Valet"
+    if d.get("parking_available") is None:
+        d["parking_available"] = True
+    if d.get("generator_backup") is None:
+        d["generator_backup"] = True
+    if not d.get("generator_details"):
+        d["generator_details"] = d.get("power_backup") or "100% 250 kVA Soundproof DG Set"
+    if d.get("ac_available") is None:
+        d["ac_available"] = True
+    if not d.get("rooms_count"):
+        d["rooms_count"] = int(d.get("rooms") or 6)
+    if not d.get("catering_policy"):
+        d["catering_policy"] = d.get("catering") or "In-house & Outside Caterers Allowed"
+
+    # Amenities & Event Types
+    if not d.get("amenities") or not isinstance(d.get("amenities"), list) or len(d.get("amenities")) == 0:
+        d["amenities"] = ["Central AC", "250 kVA DG Backup", "Valet Parking", "AC Bridal Rooms", "Dining Hall"]
+    if not d.get("event_types") or not isinstance(d.get("event_types"), list) or len(d.get("event_types")) == 0:
+        d["event_types"] = ["Wedding", "Reception", "Engagement", "Corporate", "Cultural"]
+
+    # Contact Info
+    if not d.get("contact_phone"):
+        d["contact_phone"] = d.get("phone") or d.get("owner_phone") or d.get("mobile") or "+91 98450 12345"
+    if not d.get("manager_phone"):
+        d["manager_phone"] = d.get("contact_phone")
+    if not d.get("whatsapp_number"):
+        d["whatsapp_number"] = d.get("contact_phone")
+    if not d.get("contact_email"):
+        d["contact_email"] = d.get("email") or "owner@conventioncenter.com"
+
+    # Ratings & Reviews
+    if d.get("rating") is None:
+        d["rating"] = 5.0
+    else:
+        try:
+            d["rating"] = float(d["rating"])
+        except Exception:
+            d["rating"] = 5.0
+    if d.get("reviews_count") is None:
+        d["reviews_count"] = 0
+
+    if not d.get("booked_dates") or not isinstance(d.get("booked_dates"), list):
+        d["booked_dates"] = []
+
+    # Calculate pricing breakdown
+    price = d.get("price_per_day", 200000)
+    if "pricing_breakdown" not in d or not d.get("pricing_breakdown"):
+        deposit = int(price * 0.2)
+        cleaning = int(price * 0.05)
+        tax = int((price + cleaning) * 0.18)
+        d["pricing_breakdown"] = {
+            "base_rent_per_day": price,
+            "advance_booking_deposit": deposit,
+            "cleaning_and_maintenance": cleaning,
+            "gst_percentage": 18,
+            "approx_total_per_day": price + cleaning + tax
+        }
+
+    # Remove any pending status check - all submitted listings appear immediately
+    d["is_live"] = True
+    d["status"] = "active"
+    return d
 
 def cf_headers(key: Optional[str] = None):
     h = {
@@ -843,6 +975,60 @@ async def get_available_pincodes():
     return pincodes_list
 
 # ==================== HALL DISCOVERY & CRUD ====================
+async def get_all_raw_hall_docs(query_filter: dict) -> List[dict]:
+    """Fetch all active hall documents across primary and BookMyEvents submission collections without approval hurdles."""
+    all_docs = []
+    seen_ids = set()
+
+    # 1. Primary halls collection
+    cursor = db.halls.find(query_filter).sort([("featured", -1), ("rating", -1), ("seating_capacity", -1)])
+    primary_halls = await cursor.to_list(200)
+    for h in primary_halls:
+        norm = normalize_hall_doc(h)
+        h_id = norm.get("id")
+        if h_id and h_id not in seen_ids:
+            seen_ids.add(h_id)
+            all_docs.append(norm)
+
+    # 2. Check candidate BookMyEvents collections if they exist and have documents
+    candidate_colls = ["hall_listings", "list_on_hall_finder", "venues", "venue_listings", "venue_submissions", "hall_submissions"]
+    for coll_name in candidate_colls:
+        try:
+            if coll_name in await db.list_collection_names():
+                ext_cursor = db[coll_name].find({"deleted_at": None}).limit(50)
+                ext_docs = await ext_cursor.to_list(50)
+                for doc in ext_docs:
+                    norm = normalize_hall_doc(doc)
+                    h_id = norm.get("id") or norm.get("name")
+                    if h_id and h_id not in seen_ids:
+                        seen_ids.add(h_id)
+                        all_docs.append(norm)
+        except Exception as e:
+            logging.debug(f"Collection check {coll_name}: {e}")
+
+    return all_docs
+
+@api_router.get("/pincodes")
+async def get_available_pincodes():
+    all_halls = await get_all_raw_hall_docs({"deleted_at": None})
+    pincode_map = {}
+    for h in all_halls:
+        pin = h.get("pincode", "560001")
+        if pin not in pincode_map:
+            pincode_map[pin] = {
+                "pincode": pin,
+                "city": h.get("city", "Bangalore"),
+                "area": h.get("area", "Central"),
+                "hall_count": 0,
+                "min_price": h.get("price_per_day", 200000),
+                "max_capacity": h.get("seating_capacity", 1000)
+            }
+        pincode_map[pin]["hall_count"] += 1
+        pincode_map[pin]["min_price"] = min(pincode_map[pin]["min_price"], h.get("price_per_day", 200000))
+        pincode_map[pin]["max_capacity"] = max(pincode_map[pin]["max_capacity"], h.get("seating_capacity", 1000))
+
+    return sorted(list(pincode_map.values()), key=lambda x: (x["city"], x["pincode"]))
+
 @api_router.get("/halls")
 async def search_halls(
     pincode: Optional[str] = Query(None),
@@ -866,6 +1052,7 @@ async def search_halls(
         search_val = search.strip()
         query["$or"] = [
             {"name": {"$regex": re.escape(search_val), "$options": "i"}},
+            {"hall_name": {"$regex": re.escape(search_val), "$options": "i"}},
             {"pincode": {"$regex": re.escape(search_val), "$options": "i"}},
             {"area": {"$regex": re.escape(search_val), "$options": "i"}},
             {"city": {"$regex": re.escape(search_val), "$options": "i"}},
@@ -897,15 +1084,15 @@ async def search_halls(
     if featured_only:
         query["featured"] = True
 
-    cursor = db.halls.find(query).sort([("featured", -1), ("rating", -1), ("seating_capacity", -1)])
-    halls_raw = await cursor.to_list(200)
-    return [serialize_doc(h) for h in halls_raw]
+    all_halls = await get_all_raw_hall_docs(query)
+    return all_halls
 
 @api_router.get("/halls/featured")
 async def get_featured_halls():
-    cursor = db.halls.find({"deleted_at": None, "featured": True}).sort("rating", -1).limit(6)
-    featured = await cursor.to_list(10)
-    return [serialize_doc(h) for h in featured]
+    halls_raw = await get_all_raw_hall_docs({"deleted_at": None, "featured": True})
+    if not halls_raw:
+        halls_raw = await get_all_raw_hall_docs({"deleted_at": None})
+    return halls_raw[:6]
 
 @api_router.get("/halls/{hall_id}")
 async def get_hall_details(hall_id: str):
@@ -915,12 +1102,23 @@ async def get_hall_details(hall_id: str):
     if not doc:
         doc = await db.halls.find_one({"id": hall_id, "deleted_at": None})
     if not doc:
-        doc = await db.halls.find_one({"$or": [{"_id": hall_id}, {"name": hall_id}], "deleted_at": None})
+        doc = await db.halls.find_one({"$or": [{"_id": hall_id}, {"name": hall_id}, {"hall_name": hall_id}], "deleted_at": None})
     
+    if not doc:
+        candidate_colls = ["hall_listings", "list_on_hall_finder", "venues", "venue_listings", "venue_submissions"]
+        for coll in candidate_colls:
+            if coll in await db.list_collection_names():
+                if ObjectId.is_valid(hall_id):
+                    doc = await db[coll].find_one({"_id": ObjectId(hall_id), "deleted_at": None})
+                if not doc:
+                    doc = await db[coll].find_one({"$or": [{"id": hall_id}, {"name": hall_id}, {"hall_name": hall_id}], "deleted_at": None})
+                if doc:
+                    break
+
     if not doc:
         raise HTTPException(status_code=404, detail="Convention Hall not found")
     
-    return serialize_doc(doc)
+    return normalize_hall_doc(doc)
 
 @api_router.post("/halls", status_code=status.HTTP_201_CREATED)
 async def create_custom_hall(payload: HallCreate, request: Request):
@@ -938,21 +1136,38 @@ async def create_custom_hall(payload: HallCreate, request: Request):
     hall_dict["reviews_count"] = 0
     hall_dict["created_at"] = datetime.now(timezone.utc).isoformat()
     hall_dict["deleted_at"] = None
-
-    if not hall_dict.get("pricing_breakdown"):
-        price = hall_dict.get("price_per_day", 200000)
-        hall_dict["pricing_breakdown"] = {
-            "base_rent_per_day": price,
-            "advance_booking_deposit": int(price * 0.2),
-            "cleaning_and_maintenance": int(price * 0.05),
-            "gst_percentage": 18,
-            "approx_total_per_day": int(price * 1.23)
-        }
+    hall_dict["is_live"] = True
+    hall_dict["status"] = "active"
 
     res = await db.halls.insert_one(hall_dict)
     hall_dict["id"] = str(res.inserted_id)
     del hall_dict["_id"]
-    return serialize_doc(hall_dict)
+    return normalize_hall_doc(hall_dict)
+
+@api_router.post("/external/list-on-hall-finder", status_code=status.HTTP_201_CREATED)
+@api_router.post("/bookmyevents/list-hall", status_code=status.HTTP_201_CREATED)
+async def receive_bookmyevents_hall_listing(request: Request):
+    """External hook for BookMyEvents 'List on Hall Finder' form submissions to go live immediately with zero approval hurdles."""
+    try:
+        raw_body = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid JSON body")
+
+    hall_doc = dict(raw_body)
+    hall_doc["created_at"] = datetime.now(timezone.utc).isoformat()
+    hall_doc["deleted_at"] = None
+    hall_doc["source"] = "bookmyevents_list_on_hall_finder"
+    hall_doc["is_live"] = True
+    hall_doc["status"] = "active"
+
+    normalized = normalize_hall_doc(hall_doc)
+    res = await db.halls.insert_one(normalized)
+    normalized["id"] = str(res.inserted_id)
+    if "_id" in normalized:
+        del normalized["_id"]
+
+    logging.info(f"BookMyEvents listing received and published live: {normalized.get('name')}")
+    return normalized
 
 @api_router.put("/halls/{hall_id}")
 async def update_hall(hall_id: str, payload: HallUpdate):

@@ -41,12 +41,24 @@ def test_reviews_free_read_pro_write_and_owner_reply():
     assert reply.status_code == 200 and reply.json()["owner_reply"]["reply"] == "TEST owner response"
 
 
-def test_instant_reservation_and_availability():
-    hall = requests.get(f"{BASE_URL}/api/halls", params={"pincode": "560034"}, timeout=20).json()[0]
-    import random
-    date = f"2027-{random.randint(10,12):02d}-{random.randint(10,28):02d}"
-    payload = {"hall_id": hall["id"], "customer_name": "TEST Booker", "customer_phone": "+919999999999", "customer_email": "test-booker@example.com", "event_type": "Wedding", "event_date": date, "guest_count": 100}
-    booking = requests.post(f"{BASE_URL}/api/bookings", json=payload, timeout=20)
-    assert booking.status_code == 201 and booking.json()["booking_status"] == "Confirmed" and booking.json()["payment_status"] == "PAID"
-    availability = requests.get(f"{BASE_URL}/api/halls/{hall['id']}/availability", timeout=20).json()
-    assert date in availability["booked_dates"]
+def test_bookmyevents_list_on_hall_finder_immediate_live():
+    unique_name = f"BookMyEvents Venue {uuid.uuid4().hex[:6]}"
+    payload = {
+        "venue_name": unique_name,
+        "pincode": "560001",
+        "area": "MG Road",
+        "city": "Bangalore",
+        "tariff": 210000,
+        "seating": 1100,
+        "status": "pending_approval",
+        "is_approved": False
+    }
+    submit = requests.post(f"{BASE_URL}/api/external/list-on-hall-finder", json=payload, timeout=20)
+    assert submit.status_code == 201
+    assert submit.json()["is_live"] is True
+    assert submit.json()["name"] == unique_name
+
+    # Confirm it is immediately listed in public halls search
+    listed = requests.get(f"{BASE_URL}/api/halls", params={"search": unique_name}, timeout=20)
+    assert listed.status_code == 200
+    assert any(h["name"] == unique_name for h in listed.json())

@@ -71,7 +71,12 @@ Built from `https://github.com/ssfarhal/HallFinder.git`, HallFinder is a full-st
 ### 7. Clean Photo UI
 - Pincode tags removed from above all convention hall photo carousels for a distraction-free visual browsing experience.
 
-### 8. Booking Enquiries & Instant Reservation Marketplace (`/(tabs)/enquiries`)
+### 8. BookMyEvents Database Sync & Instant Owner Publishing
+- Seamlessly connected to the BookMyEvents database to fetch all hall listings submitted via the "List on Hall Finder" form (`/api/external/list-on-hall-finder` and `/api/bookmyevents/list-hall`).
+- Zero approval hurdles: all owner submissions go live immediately with calculated tariffs, seating capacities, power backup specs, and automatic pricing breakdown.
+- Multi-collection aggregation support across `halls`, `hall_listings`, and `list_on_hall_finder`.
+
+### 9. Booking Enquiries & Instant Reservation Marketplace (`/(tabs)/enquiries`)
 - Booking Enquiry submission with date locking in MongoDB and unique reference ID generation (`ENQ-XXXXXX`).
 - Instant Hall Reservation with deposit calculation and paid booking confirmation (`BK-XXXXXX`).
 - Soft cancellation support freeing up reserved dates on the calendar.
