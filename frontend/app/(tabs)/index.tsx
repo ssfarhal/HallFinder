@@ -22,6 +22,7 @@ import {
   Users,
   Car,
   RotateCcw,
+  ArrowLeftRight,
 } from "lucide-react-native";
 import { Header } from "@/src/components/Header";
 import { PincodeChipList } from "@/src/components/PincodeChipList";
@@ -183,6 +184,16 @@ export default function HomeScreen() {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.filterScroll}
         >
+          {/* Compare Venues Button */}
+          <Pressable
+            testID="explore-compare-venues-btn"
+            style={styles.compareBtnPill}
+            onPress={() => router.push("/compare")}
+          >
+            <ArrowLeftRight size={13} color="#FFFFFF" />
+            <Text style={styles.compareBtnPillText}>Compare Venues</Text>
+          </Pressable>
+
           <Pressable
             testID="toggle-advanced-filters-btn"
             style={[styles.filterPill, showFilters && styles.filterPillActive]}
@@ -497,6 +508,27 @@ const useStyles = makeStyles((colors) => ({
     paddingHorizontal: 16,
     alignItems: "center",
     gap: 8,
+  },
+  compareBtnPill: {
+    height: 32,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    backgroundColor: colors.brandPrimary,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 5,
+    flexShrink: 0,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  compareBtnPillText: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#FFFFFF",
   },
   filterPill: {
     height: 32,

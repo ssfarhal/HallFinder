@@ -82,11 +82,6 @@ export const HallCard: React.FC<HallCardProps> = ({ hall, onBookPress, onInstant
 
         {/* Top Badges */}
         <View style={styles.imageHeaderRow}>
-          <View style={styles.pincodePill}>
-            <MapPin size={11} color={colors.onBrandPrimary} />
-            <Text style={styles.pincodePillText}>PIN: {hall.pincode}</Text>
-          </View>
-
           <Pressable
             testID={`favorite-btn-${hall.id}`}
             style={[styles.favoriteBtn, favorited && styles.favoriteBtnActive]}
@@ -258,7 +253,7 @@ const useStyles = makeStyles((colors) => ({
     left: 10,
     right: 10,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     alignItems: "center",
   },
   pincodePill: {

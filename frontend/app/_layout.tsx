@@ -26,6 +26,7 @@ export default function RootLayout() {
                   <Stack.Screen name="hall/[id]" options={{ headerShown: false }} />
                   <Stack.Screen name="terms" options={{ headerShown: false }} />
                   <Stack.Screen name="privacy" options={{ headerShown: false }} />
+                  <Stack.Screen name="compare" options={{ headerShown: false }} />
                 </Stack>
                 <AuthModal />
                 <UpgradeProModal />

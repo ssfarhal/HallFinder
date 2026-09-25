@@ -302,14 +302,6 @@ export default function HallDetailsScreen() {
               ))}
             </View>
           )}
-
-          {/* Pincode & City Tag */}
-          <View style={styles.pincodeTag}>
-            <MapPin size={12} color={colors.onBrandPrimary} />
-            <Text style={styles.pincodeTagText}>
-              PIN: {hall.pincode} • {hall.city}
-            </Text>
-          </View>
         </View>
 
         {/* Main Content Body */}

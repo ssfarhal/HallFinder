@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import { Heart, Building2, Trash2, Crown, Sparkles } from "lucide-react-native";
+import { Heart, Building2, Trash2, Crown, Sparkles, ArrowLeftRight, ChevronRight } from "lucide-react-native";
 import { Header } from "@/src/components/Header";
 import { HallCard } from "@/src/components/HallCard";
 import { useFavorites } from "@/src/context/FavoritesContext";
@@ -47,6 +47,27 @@ export default function FavoritesScreen() {
           ) : null
         }
       />
+
+      {/* Compare Venues Banner */}
+      <Pressable
+        testID="favorites-compare-banner"
+        style={styles.compareBanner}
+        onPress={() => router.push("/compare")}
+      >
+        <View style={styles.compareBannerIcon}>
+          <ArrowLeftRight size={18} color="#FFFFFF" />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.compareBannerTitle}>Compare Venues Side-by-Side</Text>
+          <Text style={styles.compareBannerSub}>
+            Analyze seating, dining, tariffs per guest & generator specs
+          </Text>
+        </View>
+        <View style={styles.compareBannerAction}>
+          <Text style={styles.compareBannerActionText}>Compare</Text>
+          <ChevronRight size={13} color="#FFFFFF" />
+        </View>
+      </Pressable>
 
       {!isPro ? (
         <View style={styles.proLockedContainer} testID="favorites-pro-locked-view">
@@ -106,6 +127,57 @@ const useStyles = makeStyles((colors) => ({
   container: {
     flex: 1,
     backgroundColor: colors.surfaceSecondary,
+  },
+  compareBanner: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    backgroundColor: colors.surface,
+    marginHorizontal: 16,
+    marginTop: 12,
+    marginBottom: 4,
+    padding: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.borderStrong,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  compareBannerIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: colors.brandPrimary,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  compareBannerTitle: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: colors.brandPrimary,
+  },
+  compareBannerSub: {
+    fontSize: 11,
+    color: colors.onSurfaceSecondary,
+    marginTop: 2,
+    lineHeight: 15,
+  },
+  compareBannerAction: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 2,
+    backgroundColor: colors.brandPrimary,
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+    borderRadius: 6,
+  },
+  compareBannerActionText: {
+    color: "#FFFFFF",
+    fontSize: 10.5,
+    fontWeight: "700",
   },
   listContainer: {
     paddingTop: 16,

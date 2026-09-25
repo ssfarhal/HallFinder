@@ -55,7 +55,22 @@ Built from `https://github.com/ssfarhal/HallFinder.git`, HallFinder is a full-st
 - "+ Add Hall" modal for owner self-listing into MongoDB with amenities, capacities, and pricing.
 - Platform analytics dashboard showing total venues, Pro subscribers, and enquiry volume.
 
-### 6. Booking Enquiries & Instant Reservation Marketplace (`/(tabs)/enquiries`)
+### 6. Side-by-Side Venue Comparison (`/compare`)
+- **50/50 Split Comparison Screen**: Compare any 2 convention halls side-by-side with Venue 1 on left and Venue 2 on right.
+- **Entry Points**: 'Compare Venues' button on Explore tab filter bar and 'Compare Venues Side-by-Side' banner on Saved tab.
+- **Swap Control (⇄)**: Central floating swap button to interchange Venue 1 and Venue 2.
+- **Venue Pickers**: 'Change Venue' dropdown buttons opening searchable bottom sheets to swap any venue.
+- **Dynamic Metric Highlights**:
+  - **Tariff per Day** with 'Best Tariff' badge on lower priced venue.
+  - **Cost per Guest** (Tariff ÷ Seating Capacity) with 'Better Value' badge.
+  - **Seating Capacity** with 'Max Capacity' badge on higher capacity venue.
+  - **Dining Capacity**, **Valet Parking**, **100% DG Generator Backup**, **AC Bridal Rooms**, **Catering Policy**, **Customer Ratings & Review Counts**, and **Advance Deposit**.
+  - Direct profile links and enquiry CTAs for both compared halls.
+
+### 7. Clean Photo UI
+- Pincode tags removed from above all convention hall photo carousels for a distraction-free visual browsing experience.
+
+### 8. Booking Enquiries & Instant Reservation Marketplace (`/(tabs)/enquiries`)
 - Booking Enquiry submission with date locking in MongoDB and unique reference ID generation (`ENQ-XXXXXX`).
 - Instant Hall Reservation with deposit calculation and paid booking confirmation (`BK-XXXXXX`).
 - Soft cancellation support freeing up reserved dates on the calendar.
