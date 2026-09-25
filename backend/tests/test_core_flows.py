@@ -8,7 +8,7 @@ def test_health_and_plans():
     r = requests.get(f"{BASE_URL}/api/", timeout=20)
     assert r.status_code == 200 and r.json()["status"] == "online"
     plans = requests.get(f"{BASE_URL}/api/plans", timeout=20).json()
-    assert {p["id"] for p in plans} == {"quarterly_300", "yearly_500"}
+    assert {p["id"] for p in plans} == {"weekly_100", "quarterly_300", "yearly_500"}
 
 def test_discovery_filters_and_details():
     r = requests.get(f"{BASE_URL}/api/halls", params={"pincode": "560001", "event_type": "Wedding", "min_capacity": 1000}, timeout=20)

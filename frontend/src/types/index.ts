@@ -142,11 +142,12 @@ export interface SearchFilters {
 }
 
 export interface ProPlan {
-  id: "quarterly_300" | "yearly_500";
+  id: "weekly_100" | "quarterly_300" | "yearly_500";
   name: string;
   amount: number;
   currency: string;
-  duration_months: number;
+  duration_days?: number;
+  duration_months?: number;
   description: string;
 }
 
@@ -155,7 +156,7 @@ export interface UserMembership {
   customer_name?: string;
   customer_email?: string;
   customer_phone?: string;
-  plan?: "quarterly_300" | "yearly_500";
+  plan?: "weekly_100" | "quarterly_300" | "yearly_500";
   plan_name?: string;
   amount_paid?: number;
   order_id?: string;
@@ -166,7 +167,7 @@ export interface UserMembership {
 }
 
 export interface PaymentCheckoutPayload {
-  plan: "quarterly_300" | "yearly_500";
+  plan: "weekly_100" | "quarterly_300" | "yearly_500";
   customer_id: string;
   customer_name: string;
   customer_email: string;

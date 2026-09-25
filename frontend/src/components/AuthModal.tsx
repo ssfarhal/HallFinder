@@ -22,6 +22,8 @@ import {
   KeyRound,
 } from "lucide-react-native";
 import { useAuth } from "../context/AuthContext";
+import { usePro } from "../context/ProContext";
+import { useRouter } from "expo-router";
 import { useTheme, makeStyles } from "../theme";
 
 export const AuthModal: React.FC = () => {
@@ -35,8 +37,12 @@ export const AuthModal: React.FC = () => {
     loginWithPassword,
     registerWithPassword,
   } = useAuth();
+  const { isPro } = usePro();
+  const router = useRouter();
   const { colors } = useTheme();
   const styles = useStyles();
+
+  const appTitle = isPro ? "HallFinder Pro" : "HallFinder";
 
   const [authMode, setAuthMode] = useState<"demo" | "password_login" | "register">("demo");
   const [email, setEmail] = useState("arjun.sharma@example.com");
@@ -132,11 +138,11 @@ export const AuthModal: React.FC = () => {
               </View>
               <View>
                 <View style={styles.titleRow}>
-                  <Text style={styles.headerTitle}>Sign in to HallFinder</Text>
-                  <Sparkles size={14} color={colors.brandPrimary} />
+                  <Text style={styles.headerTitle}>Sign in to {appTitle}</Text>
+                  {isPro && <Sparkles size={14} color={colors.brandPrimary} />}
                 </View>
                 <Text style={styles.headerSubtitle}>
-                  Access Pro features, booking marketplace & owner tools
+                  Access saved halls, live calendars & booking tools
                 </Text>
               </View>
             </View>
@@ -353,6 +359,30 @@ export const AuthModal: React.FC = () => {
                 </Pressable>
               </View>
             )}
+
+            {/* Terms and Privacy policy notice & links */}
+            <View style={styles.authLegalRow}>
+              <Text style={styles.authLegalNotice}>By signing in, you agree to our </Text>
+              <Pressable
+                testID="auth-terms-link"
+                onPress={() => {
+                  closeAuthModal();
+                  router.push("/terms");
+                }}
+              >
+                <Text style={styles.authLegalLink}>Terms & Conditions</Text>
+              </Pressable>
+              <Text style={styles.authLegalNotice}> and </Text>
+              <Pressable
+                testID="auth-privacy-link"
+                onPress={() => {
+                  closeAuthModal();
+                  router.push("/privacy");
+                }}
+              >
+                <Text style={styles.authLegalLink}>Privacy Policy</Text>
+              </Pressable>
+            </View>
 
             <View style={styles.securityRow}>
               <ShieldCheck size={14} color={colors.success} />
@@ -634,5 +664,24 @@ const useStyles = makeStyles((colors) => ({
   securityText: {
     fontSize: 11,
     color: colors.muted,
+  },
+  authLegalRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 10,
+    paddingHorizontal: 10,
+  },
+  authLegalNotice: {
+    fontSize: 11,
+    color: colors.muted,
+    textAlign: "center",
+  },
+  authLegalLink: {
+    fontSize: 11,
+    color: colors.brandPrimary,
+    fontWeight: "700",
+    textDecorationLine: "underline",
   },
 }));

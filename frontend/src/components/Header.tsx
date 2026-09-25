@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Pressable, Modal } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 import { Building2, Sparkles, Crown, User, LogOut, X, KeyRound, Shield } from "lucide-react-native";
 import { useTheme, makeStyles } from "../theme";
 import { usePro } from "../context/ProContext";
@@ -15,17 +16,20 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  title = "HallFinder Pro",
+  title,
   subtitle = "Discover & Book Luxury Convention Halls",
   rightAction,
 }) => {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
   const { colors } = useTheme();
   const styles = useStyles();
   const { isPro, openUpgradeModal, membership } = usePro();
   const { user, isAuthenticated, openAuthModal, logout } = useAuth();
 
   const [profileModalVisible, setProfileModalVisible] = useState(false);
+
+  const displayTitle = title ?? (isPro ? "HallFinder Pro" : "HallFinder");
 
   const handleLogout = async () => {
     setProfileModalVisible(false);
@@ -50,8 +54,8 @@ export const Header: React.FC<HeaderProps> = ({
           </View>
           <View>
             <View style={styles.titleRow}>
-              <Text style={styles.title}>{title}</Text>
-              <Sparkles size={14} color={colors.brandPrimary} style={styles.sparkle} />
+              <Text style={styles.title}>{displayTitle}</Text>
+              {isPro && <Sparkles size={14} color={colors.brandPrimary} style={styles.sparkle} />}
             </View>
             <Text style={styles.subtitle}>{subtitle}</Text>
           </View>
@@ -154,6 +158,29 @@ export const Header: React.FC<HeaderProps> = ({
                   <Text style={styles.freeStatusPillText}>Free Tier • Unlock Pro / Code</Text>
                 </Pressable>
               )}
+            </View>
+
+            {/* Legal Links */}
+            <View style={styles.legalLinksRow}>
+              <Pressable
+                testID="profile-terms-link"
+                onPress={() => {
+                  setProfileModalVisible(false);
+                  router.push("/terms");
+                }}
+              >
+                <Text style={styles.legalLinkText}>Terms & Conditions</Text>
+              </Pressable>
+              <Text style={styles.legalDivider}>•</Text>
+              <Pressable
+                testID="profile-privacy-link"
+                onPress={() => {
+                  setProfileModalVisible(false);
+                  router.push("/privacy");
+                }}
+              >
+                <Text style={styles.legalLinkText}>Privacy Policy</Text>
+              </Pressable>
             </View>
 
             <Pressable
@@ -411,5 +438,21 @@ const useStyles = makeStyles((colors) => ({
     color: colors.error,
     fontSize: 13,
     fontWeight: "700",
+  },
+  legalLinksRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    marginVertical: 10,
+  },
+  legalLinkText: {
+    fontSize: 11,
+    color: colors.brandPrimary,
+    fontWeight: "600",
+  },
+  legalDivider: {
+    fontSize: 11,
+    color: colors.muted,
   },
 }));

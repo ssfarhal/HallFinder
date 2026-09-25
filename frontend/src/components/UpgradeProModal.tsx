@@ -72,7 +72,7 @@ export const UpgradeProModal: React.FC = () => {
   const { colors } = useTheme();
   const styles = useStyles();
 
-  const [selectedPlan, setSelectedPlan] = useState<"quarterly_300" | "yearly_500">("yearly_500");
+  const [selectedPlan, setSelectedPlan] = useState<"weekly_100" | "quarterly_300" | "yearly_500">("yearly_500");
   const [customerName, setCustomerName] = useState("Arjun Sharma");
   const [customerPhone, setCustomerPhone] = useState("9876543210");
   const [customerEmail, setCustomerEmail] = useState("arjun.sharma@example.com");
@@ -166,7 +166,8 @@ export const UpgradeProModal: React.FC = () => {
     closeUpgradeModal();
   };
 
-  const selectedAmount = selectedPlan === "yearly_500" ? 500 : 300;
+  const selectedAmount =
+    selectedPlan === "yearly_500" ? 500 : selectedPlan === "quarterly_300" ? 300 : 100;
 
   return (
     <Modal
@@ -216,7 +217,11 @@ export const UpgradeProModal: React.FC = () => {
               <View style={styles.successBadgeCard}>
                 <Text style={styles.successBadgeTitle}>ACTIVE MEMBERSHIP</Text>
                 <Text style={styles.successBadgePlan}>
-                  {selectedPlan === "yearly_500" ? "Annual Pro (1 Year)" : "Quarterly Pro (3 Months)"}
+                  {selectedPlan === "yearly_500"
+                    ? "Annual Pro (1 Year)"
+                    : selectedPlan === "quarterly_300"
+                    ? "Quarterly Pro (3 Months)"
+                    : "Weekly Pro (7 Days)"}
                 </Text>
                 <Text style={styles.successBadgeNote}>
                   All locked features across all convention halls are now unlocked!
@@ -312,10 +317,10 @@ export const UpgradeProModal: React.FC = () => {
                 </Text>
               </View>
 
-              {/* Subscription Plans Selection (2 Tiers) */}
+              {/* Subscription Plans Selection (3 Tiers) */}
               <Text style={styles.sectionLabel}>OR CHOOSE CASHFREE PRO PLAN</Text>
 
-              {/* Plan 2: 1 Year Plan (BEST VALUE) */}
+              {/* Plan 1: 1 Year Plan (BEST VALUE) */}
               <Pressable
                 testID="select-plan-yearly-500"
                 style={[
@@ -345,7 +350,7 @@ export const UpgradeProModal: React.FC = () => {
                 </View>
               </Pressable>
 
-              {/* Plan 1: 3 Months Plan */}
+              {/* Plan 2: 3 Months Plan */}
               <Pressable
                 testID="select-plan-quarterly-300"
                 style={[
@@ -367,6 +372,35 @@ export const UpgradeProModal: React.FC = () => {
                   <View style={{ alignItems: "flex-end" }}>
                     <Text style={styles.planPrice}>₹300</Text>
                     <Text style={styles.planPeriod}>/ 3 months</Text>
+                  </View>
+                </View>
+              </Pressable>
+
+              {/* Plan 3: 7 Days Plan */}
+              <Pressable
+                testID="select-plan-weekly-100"
+                style={[
+                  styles.planCard,
+                  selectedPlan === "weekly_100" && styles.planCardSelected,
+                ]}
+                onPress={() => setSelectedPlan("weekly_100")}
+              >
+                <View style={styles.weeklyPill}>
+                  <Text style={styles.weeklyPillText}>⚡ 7 DAYS PASS</Text>
+                </View>
+                <View style={styles.planCardHeader}>
+                  <View style={styles.planRadioCircle}>
+                    {selectedPlan === "weekly_100" && (
+                      <View style={styles.planRadioDot} />
+                    )}
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.planTitle}>7 Days Pro Pass</Text>
+                    <Text style={styles.planSub}>Short Term • ₹14 / day</Text>
+                  </View>
+                  <View style={{ alignItems: "flex-end" }}>
+                    <Text style={styles.planPrice}>₹100</Text>
+                    <Text style={styles.planPeriod}>/ 7 days</Text>
                   </View>
                 </View>
               </Pressable>
@@ -626,6 +660,23 @@ const useStyles = makeStyles((colors) => ({
   bestValueText: {
     color: colors.onBrandPrimary,
     fontSize: 10,
+    fontWeight: "800",
+    letterSpacing: 0.4,
+  },
+  weeklyPill: {
+    position: "absolute",
+    top: -10,
+    right: 16,
+    backgroundColor: colors.surfaceTertiary,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: colors.borderStrong,
+  },
+  weeklyPillText: {
+    color: colors.brandPrimary,
+    fontSize: 9.5,
     fontWeight: "800",
     letterSpacing: 0.4,
   },

@@ -27,10 +27,22 @@ Built from `https://github.com/ssfarhal/HallFinder.git`, HallFinder is a full-st
   - Submitting 1 to 5 star verified customer reviews and ratings.
   - Instant reservation deposit payments.
 
-### 3. VIP Secret Unlock Code & Cashfree Payments
+### 3. VIP Secret Unlock Code & Cashfree Payments (3 Tiers)
+- **3 Cashfree Subscriptions**:
+  - **Weekly Pro Pass**: 7 Days for ₹100 (Short term)
+  - **Quarterly Pro Plan**: 3 Months for ₹300 (₹100/mo)
+  - **Annual Pro Plan**: 1 Year for ₹500 (₹42/mo - Save 45%)
 - **VIP Secret Code `GT011103`**: Grants 1-Year Full HallFinder Pro Access for free without payment.
-- **Cashfree Subscriptions**: 3 Months @ ₹300 (Quarterly) and 1 Year @ ₹500 (Annual Pro - Save 45%).
 - 1-Tap Sandbox Upgrade for instant developer and reviewer verification.
+
+### 4. Dynamic Pro Branding Rule
+- App name dynamically displays as **"HallFinder"** for all unsubscribed/free users.
+- App name displays as **"HallFinder Pro"** (with glowing gold sparkles & PRO badge) ONLY when the user holds an active Pro subscription.
+
+### 5. Dedicated Public Legal Pages (/terms & /privacy)
+- **Privacy Policy (`/privacy`)**: Covers user account data collection, Google OAuth & Apple Sign In usage, Cashfree payment processing, third-party API/owner venue listing data, customer reviews/ratings storage, and an unequivocal guarantee that user data is never sold to third parties.
+- **Terms & Conditions (`/terms`)**: Covers the 3 subscription plans (7 Days ₹100, 3 Months ₹300, 1 Year ₹500), Pro feature access, secret VIP code GT011103 rules, strict no-refund policy for digital subscriptions, and customer & hall owner code of conduct.
+- Accessible directly at public routes without requiring login, and linked in the app footer and login/signup sheet.
 
 ### 4. Verified Reviews & Ratings System
 - Pro customers can submit 1-5 star ratings, review title, detailed comments, and event type.

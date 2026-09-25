@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   Search,
   X,
@@ -45,6 +45,7 @@ const EVENT_TYPE_FILTERS = ["All", "Wedding", "Reception", "Engagement", "Corpor
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
   const params = useLocalSearchParams<{ pincode?: string }>();
   const { colors } = useTheme();
   const styles = useStyles();
@@ -332,6 +333,30 @@ export default function HomeScreen() {
     </View>
   );
 
+  const renderFooter = () => (
+    <View style={styles.appFooter} testID="app-footer-section">
+      <View style={styles.footerBrandRow}>
+        <Building size={16} color={colors.brandPrimary} />
+        <Text style={styles.footerBrandText}>HallFinder India</Text>
+      </View>
+      <Text style={styles.footerTagline}>
+        Verified Luxury Convention Halls • Live Calendars
+      </Text>
+      <View style={styles.footerLinksRow}>
+        <Pressable testID="footer-terms-link" onPress={() => router.push("/terms")}>
+          <Text style={styles.footerLinkText}>Terms & Conditions</Text>
+        </Pressable>
+        <Text style={styles.footerDivider}>•</Text>
+        <Pressable testID="footer-privacy-link" onPress={() => router.push("/privacy")}>
+          <Text style={styles.footerLinkText}>Privacy Policy</Text>
+        </Pressable>
+      </View>
+      <Text style={styles.footerCopyright}>
+        © 2026 HallFinder. All rights reserved.
+      </Text>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <Header
@@ -350,6 +375,7 @@ export default function HomeScreen() {
           />
         )}
         ListHeaderComponent={renderHeader}
+        ListFooterComponent={renderFooter}
         contentContainerStyle={[
           styles.listContainer,
           { paddingBottom: bottomChrome + 24 },
@@ -610,6 +636,54 @@ const useStyles = makeStyles((colors) => ({
   },
   loadingText: {
     fontSize: 13,
+    color: colors.muted,
+  },
+  appFooter: {
+    paddingVertical: 24,
+    paddingHorizontal: 16,
+    alignItems: "center",
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+    marginTop: 20,
+    backgroundColor: colors.surfaceSecondary,
+    marginHorizontal: 16,
+    borderRadius: 14,
+    marginBottom: 10,
+  },
+  footerBrandRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    marginBottom: 4,
+  },
+  footerBrandText: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: colors.brandPrimary,
+  },
+  footerTagline: {
+    fontSize: 11,
+    color: colors.muted,
+    marginBottom: 12,
+    textAlign: "center",
+  },
+  footerLinksRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 10,
+  },
+  footerLinkText: {
+    fontSize: 12,
+    color: colors.brandPrimary,
+    fontWeight: "700",
+  },
+  footerDivider: {
+    fontSize: 12,
+    color: colors.muted,
+  },
+  footerCopyright: {
+    fontSize: 10.5,
     color: colors.muted,
   },
 }));

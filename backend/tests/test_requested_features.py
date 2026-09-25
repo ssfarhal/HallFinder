@@ -43,9 +43,8 @@ def test_reviews_free_read_pro_write_and_owner_reply():
 
 def test_instant_reservation_and_availability():
     hall = requests.get(f"{BASE_URL}/api/halls", params={"pincode": "560034"}, timeout=20).json()[0]
-    date = "2027-02-" + uuid.uuid4().hex[:2]
-    date = date.replace("a", "1").replace("b", "2").replace("c", "3").replace("d", "4").replace("e", "5").replace("f", "6")
-    date = date[:8] + "15"
+    import random
+    date = f"2027-{random.randint(10,12):02d}-{random.randint(10,28):02d}"
     payload = {"hall_id": hall["id"], "customer_name": "TEST Booker", "customer_phone": "+919999999999", "customer_email": "test-booker@example.com", "event_type": "Wedding", "event_date": date, "guest_count": 100}
     booking = requests.post(f"{BASE_URL}/api/bookings", json=payload, timeout=20)
     assert booking.status_code == 201 and booking.json()["booking_status"] == "Confirmed" and booking.json()["payment_status"] == "PAID"

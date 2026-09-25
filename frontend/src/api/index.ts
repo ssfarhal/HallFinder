@@ -247,7 +247,7 @@ export async function fetchUserMembership(customerId: string): Promise<UserMembe
   return handleResponse<UserMembership>(res);
 }
 
-export async function mockUpgradeMembership(customerId: string, plan: "quarterly_300" | "yearly_500", customerName: string = "Pro Member"): Promise<{ message: string; membership: UserMembership }> {
+export async function mockUpgradeMembership(customerId: string, plan: "weekly_100" | "quarterly_300" | "yearly_500", customerName: string = "Pro Member"): Promise<{ message: string; membership: UserMembership }> {
   const res = await fetch(`${API_BASE}/user/membership/upgrade-mock?customer_id=${encodeURIComponent(customerId)}&plan=${plan}&customer_name=${encodeURIComponent(customerName)}`, {
     method: "POST",
     headers: getAuthHeaders(),

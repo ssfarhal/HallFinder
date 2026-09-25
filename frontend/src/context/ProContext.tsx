@@ -18,14 +18,14 @@ interface ProContextType {
   closeUpgradeModal: () => void;
   requirePro: (onAllowed: () => void, featureName?: string) => void;
   subscribeToPlan: (
-    plan: "quarterly_300" | "yearly_500",
+    plan: "weekly_100" | "quarterly_300" | "yearly_500",
     name: string,
     phone: string,
     email: string
   ) => Promise<{ success: boolean; message?: string }>;
   applySecretCode: (code: string, name?: string) => Promise<{ success: boolean; message?: string }>;
   refreshMembership: () => Promise<void>;
-  activateProDirect: (plan?: "quarterly_300" | "yearly_500") => Promise<void>;
+  activateProDirect: (plan?: "weekly_100" | "quarterly_300" | "yearly_500") => Promise<void>;
 }
 
 const ProContext = createContext<ProContextType | null>(null);
@@ -147,7 +147,7 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const subscribeToPlan = useCallback(
     async (
-      plan: "quarterly_300" | "yearly_500",
+      plan: "weekly_100" | "quarterly_300" | "yearly_500",
       name: string,
       phone: string,
       email: string
@@ -188,7 +188,7 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   );
 
   const activateProDirect = useCallback(
-    async (plan: "quarterly_300" | "yearly_500" = "yearly_500") => {
+    async (plan: "weekly_100" | "quarterly_300" | "yearly_500" = "yearly_500") => {
       try {
         const res = await mockUpgradeMembership(activeCustomerId, plan, user?.name || "HallFinder Pro Member");
         if (res.membership) {

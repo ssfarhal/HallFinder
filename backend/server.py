@@ -62,11 +62,21 @@ class BaseDocument(BaseModel):
 
 # Plans configuration
 PLANS = {
+    "weekly_100": {
+        "id": "weekly_100",
+        "name": "Weekly Pro (7 Days)",
+        "amount": 100.0,
+        "currency": "INR",
+        "duration_days": 7,
+        "duration_months": 0,
+        "description": "Full Pro access for 7 days (₹14/day)"
+    },
     "quarterly_300": {
         "id": "quarterly_300",
         "name": "Quarterly Pro (3 Months)",
         "amount": 300.0,
         "currency": "INR",
+        "duration_days": 90,
         "duration_months": 3,
         "description": "Full Pro access for 3 months (₹100/mo)"
     },
@@ -75,6 +85,7 @@ PLANS = {
         "name": "Annual Pro (1 Year)",
         "amount": 500.0,
         "currency": "INR",
+        "duration_days": 365,
         "duration_months": 12,
         "description": "Full Pro access for 1 full year (₹42/mo - Save 45%)"
     }
@@ -180,7 +191,7 @@ class InstantBookingCreate(BaseModel):
     additional_notes: Optional[str] = ""
 
 class PaymentCheckoutIn(BaseModel):
-    plan: Literal["quarterly_300", "yearly_500"]
+    plan: Literal["weekly_100", "quarterly_300", "yearly_500"]
     customer_id: str
     customer_name: str
     customer_email: str
@@ -1223,10 +1234,10 @@ async def verify_payment_order(order_id: str):
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
 
-    plan_key = order.get("plan", "quarterly_300")
-    plan_info = PLANS.get(plan_key, PLANS["quarterly_300"])
-    duration_months = plan_info["duration_months"]
-    expires_at = (datetime.now(timezone.utc) + timedelta(days=duration_months * 30)).isoformat()
+    plan_key = order.get("plan", "yearly_500")
+    plan_info = PLANS.get(plan_key, PLANS["yearly_500"])
+    duration_days = plan_info.get("duration_days", 30)
+    expires_at = (datetime.now(timezone.utc) + timedelta(days=duration_days)).isoformat()
 
     await db.orders.update_one(
         {"order_id": order_id},
@@ -1319,12 +1330,12 @@ async def secret_unlock_membership(payload: SecretUnlockIn):
 @api_router.post("/user/membership/upgrade-mock")
 async def mock_upgrade_membership(
     customer_id: str = Query(default="guest"),
-    plan: Literal["quarterly_300", "yearly_500"] = Query(default="yearly_500"),
+    plan: Literal["weekly_100", "quarterly_300", "yearly_500"] = Query(default="yearly_500"),
     customer_name: str = Query(default="Pro Member")
 ):
     plan_info = PLANS[plan]
-    duration_months = plan_info["duration_months"]
-    expires_at = (datetime.now(timezone.utc) + timedelta(days=duration_months * 30)).isoformat()
+    duration_days = plan_info.get("duration_days", 30)
+    expires_at = (datetime.now(timezone.utc) + timedelta(days=duration_days)).isoformat()
 
     membership_doc = {
         "customer_id": customer_id,

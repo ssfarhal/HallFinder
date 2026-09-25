@@ -24,6 +24,8 @@ export default function RootLayout() {
                 <Stack screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                   <Stack.Screen name="hall/[id]" options={{ headerShown: false }} />
+                  <Stack.Screen name="terms" options={{ headerShown: false }} />
+                  <Stack.Screen name="privacy" options={{ headerShown: false }} />
                 </Stack>
                 <AuthModal />
                 <UpgradeProModal />
